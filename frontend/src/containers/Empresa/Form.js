@@ -14,16 +14,16 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    //   establishment: [],
+      //   establishment: [],
       parking_id: this.props.match.params.parking_id,
-      name_establishment:"",      
+      name_establishment: "",
       country_name: [],
-      cep:"",
-      country:"",
-      location:"",
-      cnpj:"",
-      vagas:"",
-      email:"",
+      cep: "",
+      country: "",
+      location: "",
+      cnpj: "",
+      vagas: "",
+      email: "",
     };
     this.handleSave = this.handleSave.bind(this);
   }
@@ -32,28 +32,26 @@ class Form extends Component {
     const { parking_id } = this.state;
     let ESTABLISHMENT_URL = `${myConfig.API_URL}/parkings/${parking_id}/`;
     axios({
-        baseURL: ESTABLISHMENT_URL,
-        method: "get",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
-        },
-      }).then((res) => {
-        console.log("***********++++++++");
-        console.log(res.data);
-        console.log("***********++++++++");
-        this.setState({
-            name_establishment:res.data.name_establishment,      
-            // country_name: [],
-            cep:res.data.cep,
-            country:res.data.pais,
-            location:res.data.location,
-            cnpj:res.data.cnpj,
-            vagas:res.data.vagas,
-            email:res.data.username,
-         }) 
-        })
-
-        
+      baseURL: ESTABLISHMENT_URL,
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
+      },
+    }).then((res) => {
+      console.log("***********++++++++");
+      console.log(res.data);
+      console.log("***********++++++++");
+      this.setState({
+        name_establishment: res.data.name_establishment,
+        // country_name: [],
+        cep: res.data.cep,
+        country: res.data.pais,
+        location: res.data.location,
+        cnpj: res.data.cnpj,
+        vagas: res.data.vagas,
+        email: res.data.username,
+      });
+    });
   }
 
   getFormData() {
@@ -114,9 +112,118 @@ class Form extends Component {
       .catch((error) => console.error("Error", error));
   };
   render() {
+    let select_countries;
+    if (this.state.country_name.length > 0) {
+      select_countries = (
+        <div className="form-group">
+          <SelectBox
+            strong="true"
+            data={this.state.country_name}
+            selected_value={this.state.country}
+            value={"name"}
+            change={(e) => this.handleSelectCountry(e)}
+            // label="Paises"
+            id="select_countries"
+          />
+        </div>
+      );
+    } else {
+      select_countries = (
+        <div className="form-group">
+          {/* <label htmlFor="">Países</label> */}
+          <select className="form-control">
+            <option value="">-------------</option>
+          </select>
+        </div>
+      );
+    }
+
     return (
-      <div>
-        <form onSubmit={this.handleSave}></form>
+      <div className="content">
+        <form onSubmit={this.handleSave}>
+          <input
+            value={this.state.name_establishment}
+            name="name_establishment"
+            onChange={(e) => this.handleChangeText(e)}
+            placeholder="Nome do estabelecimento"
+            // type="email"
+          />
+
+          <input
+            value={this.state.email}
+            name="email"
+            onChange={(e) => this.handleChangeText(e)}
+            placeholder="E-mail"
+            // type="email"
+          />
+
+          <input
+            value={this.state.vagas}
+            name="vagas"
+            onChange={(e) => this.handleChangeText(e)}
+            placeholder="Quantidade de vagas"
+            type="number"
+          />
+          {select_countries}
+
+          <PlacesAutocomplete
+            value={this.state.location}
+            onChange={this.handleChange}
+            onSelect={this.handleSelect}
+          >
+            {({ getInputProps, suggestions, getSuggestionItemProps }) => (
+              <div className="form-group">
+                {/* <label htmlFor="search_place">Localidade</label> */}
+                <input
+                  {...getInputProps({
+                    placeholder: "Procurar localidade.",
+                    className: "location-search-input form-control",
+                  })}
+                />
+                <div className="autocomplete-dropdown-container">
+                  {suggestions.map((suggestion) => {
+                    const className = suggestion.active
+                      ? "suggestion-item--active"
+                      : "suggestion-item";
+                    // inline style for demonstration purpose
+                    const style = suggestion.active
+                      ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                      : { backgroundColor: "#ffffff", cursor: "pointer" };
+                    return (
+                      <div
+                        {...getSuggestionItemProps(suggestion, {
+                          className,
+                          style,
+                        })}
+                      >
+                        <span>{suggestion.description}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </PlacesAutocomplete>
+
+          <input
+            value={this.state.cep}
+            name="cep"
+            onChange={(e) => this.handleChangeText(e)}
+            placeholder="CEP"
+            // type="email"
+          />
+          <input
+            value={this.state.cnpj}
+            name="cnpj"
+            onChange={(e) => this.handleChangeText(e)}
+            placeholder="CNPJ da empresa"
+            // type="email"
+          />
+          <button className="button" type="submit">
+            Atualizar 
+          </button>
+        </form>
+        <ToastContainer />
       </div>
     );
   }
