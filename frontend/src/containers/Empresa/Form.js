@@ -52,6 +52,22 @@ class Form extends Component {
         email: res.data.username,
       });
     });
+
+    // GET COUNTRIES
+    const PAIS_URL = `${myConfig.API_URL}/countries/`;
+
+    axios({
+      baseURL: PAIS_URL,
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
+      },
+    }).then((res) => {
+      console.log("***********");
+      console.log(res.data);
+      console.log("***********");
+      this.setState({ country_name: res.data });
+    });
   }
 
   getFormData() {
@@ -74,6 +90,44 @@ class Form extends Component {
   }
   handleSave(e) {
     e.preventDefault();
+    let UPDATE_ESTABLISHMENT = `${myConfig.API_URL}/parkings/${this.state.parking_id}/`;
+
+    axios({
+      baseURL: UPDATE_ESTABLISHMENT,
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
+      },
+      data: this.getFormData(),
+    })
+      .then((res) => {
+        console.log("***********");
+        console.log(res.data);
+        console.log("***********");
+        if (res.status === 200) {
+          //   console.log(response.data);
+          // this.setState({ submited_update: true });
+          localStorage.setItem("parking_name", res.data.name_establishment);
+          toast("Atualizado com sucesso!");
+        }
+        setTimeout(() => {
+          // this.setState({
+          //     submited_update: false,
+          // });
+        }, 8000);
+        window.location.href = "/" + this.state.parking_id + "/vehicules/";
+      })
+      .catch((error) => {
+        // window.error = error.response.data;
+        // console.log(error.response.data)
+        // let error_msg = '';
+        // Object.keys(error.response.data).forEach(function(e){
+        //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
+        // });
+        // this.setState({ error: error_msg});
+        console.error(error);
+        toast("Erro ao atualizar.");
+      });
   }
   handleChangeText(e) {
     this.setState({
@@ -220,7 +274,7 @@ class Form extends Component {
             // type="email"
           />
           <button className="button" type="submit">
-            Atualizar 
+            Atualizar
           </button>
         </form>
         <ToastContainer />
