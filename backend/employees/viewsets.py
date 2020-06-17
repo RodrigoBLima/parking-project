@@ -12,3 +12,16 @@ class EmployeesViewSet(viewsets.ModelViewSet):
     #permission_classes = (IsAuthenticated,FarmPermission)  
     # filter_backends = [DjangoFilterBackend]
     # filterset_fields = ['id']
+
+    def delete(self, request, pk=None, format=None):
+        # print("VAAAI")
+        # opa = self.request.GET.get('idEstacionamento')
+        print(self.request.GET.get('id'))
+        idEmployee = self.request.GET.get('id')
+        # print(opa1)
+        # # print(pk)
+        # # idEstacionamento
+        # print(opa)
+        # print(pk)
+        Empregados.objects.filter(id=idEmployee).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT) 

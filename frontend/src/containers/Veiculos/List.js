@@ -60,7 +60,7 @@ class List extends Component {
           // alert("Implemento excluído com sucesso !");
           toast("Veículo deletado com sucesso");
           window.scrollTo(0, 0);
-          window.location.href = "/" + this.state.parking_id + "/";
+          window.location.href = "/" + this.state.parking_id + "/vehicules/";
         });
     }
   }

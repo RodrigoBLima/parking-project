@@ -12,3 +12,19 @@ class CarsViewSet(viewsets.ModelViewSet):
     #permission_classes = (IsAuthenticated,FarmPermission)  
     # filter_backends = [DjangoFilterBackend]
     # filterset_fields = ['id']
+    def delete(self, request, pk=None, format=None):
+        # print("VAAAI")
+        # opa = self.request.GET.get('idEstacionamento')
+        idVehicule = self.request.GET.get('id')
+        # print(opa1)
+        # # print(pk)
+        # # idEstacionamento
+        # print(opa)
+        # print(pk)
+        Veiculos.objects.filter(id=idVehicule).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT) 
+
+    # def destroy(self, request, pk=None):
+        
+    #     Veiculos.objects.filter(user=pk ).delete()
+    #     return response.Response(status=status.HTTP_204_NO_CONTENT)

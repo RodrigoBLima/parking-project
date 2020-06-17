@@ -12,10 +12,15 @@ import myConfig from '../../configs/config'
 import { isChildrenEmpty } from "../../helpers/utils";
 
 export default class List extends Component {
-  state = {
-    employees: [],
-    parking_id: this.props.match.params.parking_id,
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+      employees: [],
+      parking_id: this.props.match.params.parking_id,
+    }
+    this.deleteEmployee=this.deleteEmployee.bind(this)
+  }
+// ;
 
   componentDidMount() {
     const URL = `${myConfig.API_URL}/employees/?id=&idEstacionamento=${this.state.parking_id}`;
@@ -66,7 +71,7 @@ export default class List extends Component {
                     // alert("Implemento excluído com sucesso !");
                     toast('Funcionário deletado com sucesso')
                     window.scrollTo(0, 0);
-                    window.location.href = "/"+this.state.parking_id +"/";
+                    window.location.href = "/"+this.state.parking_id +"/employees/";
                 });
         }
   }

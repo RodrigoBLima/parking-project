@@ -12,4 +12,4 @@ class EmpregadosSerealizer(serializers.ModelSerializer):
     class Meta:
         model = Empregados
         fields = ('nome', 'credential', 'telefone', 'cpf', 'rg', 'pais',
-                  'localidade', 'cargo', 'dt_nasc', 'dt_ini', 'dt_end', 'nome_pais')
+                  'localidade', 'cargo', 'dt_nasc', 'dt_ini', 'dt_end', 'nome_pais','id')
