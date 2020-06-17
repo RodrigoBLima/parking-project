@@ -102,7 +102,7 @@ class List extends Component {
 
                 <button
                   type="button"
-                  onClick={(e) => this.deleteEmployee(vehicule.id)}
+                  onClick={(e) => this.deleteVehicule(vehicule.id)}
                 >
                   <FiTrash2 size={20} color="#a8a8b3" />
                 </button>
