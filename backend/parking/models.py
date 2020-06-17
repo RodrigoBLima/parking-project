@@ -47,10 +47,10 @@ class User(AbstractUser):
     # username = None
     name_establishment  = models.CharField(max_length=150,blank=False, verbose_name="Nome do Estabelecimento")
     cep = models.CharField(max_length=9, blank=True,verbose_name="CEP")
-    endereco = models.CharField(max_length=50, verbose_name="Endereço", blank=True)
+    location = models.CharField(max_length=50, verbose_name="Localidade", blank=True)
     vagas = models.IntegerField(verbose_name="Vagas", blank=True,null=True)
     pais = models.ForeignKey('location.Country', on_delete=models.PROTECT, verbose_name="País", related_name='establishment_country',default=32)
-    cidade = models.CharField(max_length=80, verbose_name="Localidade", default="")
+    # cidade = models.CharField(max_length=80, verbose_name="Localidade", default="")
     cnpj = models.CharField(max_length=15, null=True, blank=True,verbose_name="CNPJ")
     email = models.EmailField(('email address'), unique=True,)
     password = models.CharField(max_length=50, blank=False, null=False, verbose_name="Senha")
