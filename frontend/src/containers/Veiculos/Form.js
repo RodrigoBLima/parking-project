@@ -116,7 +116,7 @@ export default class Form extends Component {
       let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/?id=${parseInt(
         vehicule_id
       )}&idEstacionamento=${parseInt(parking_id)}`;
-      
+
       axios({
         baseURL: UPDATE_VEHICULE,
         method: "put",
@@ -282,7 +282,7 @@ export default class Form extends Component {
               <input
                 value={this.state.h_entrada}
                 // type="date"
-                onChange={this.handleInitDateChange}
+              onChange={(e) => this.handleChangeText(e)}
                 placeholder="Hora entrada"
                 name="h_entrada"
               />
@@ -291,7 +291,7 @@ export default class Form extends Component {
               <input
                 value={this.state.h_saida}
                 // type="date"
-                onChange={this.handleEndDateChange}
+                onChange={(e) => this.handleChangeText(e)}
                 placeholder="Hora saida"
                 name="h_saida"
               />

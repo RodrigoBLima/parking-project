@@ -370,7 +370,7 @@ class Form extends Component {
             <input
               value={this.state.dt_nasc}
               name="dt_nasc"
-              onChange={(e) => this.handleEndDateNasc(e)}
+              onChange={(e) => this.handleChangeText(e)}
               type="date"
               placeholder="Data Nascimento"
             />
@@ -378,14 +378,14 @@ class Form extends Component {
               value={this.state.dt_ini}
               // type="date"
               name="dt_ini"
-              onChange={(e) => this.handleInitDateChange(e)}
+              onChange={(e) => this.handleChangeText(e)}
               placeholder="Data entrada"
             />
             <input
               value={this.state.dt_end}
               // type="date"
               name="dt_end"
-              onChange={(e) => this.handleEndDateChange(e)}
+              onChange={(e) => this.handleChangeText(e)}
               placeholder="Data Saída"
             />
             <input

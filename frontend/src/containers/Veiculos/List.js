@@ -67,7 +67,9 @@ class List extends Component {
 
   render() {
     let content;
-    console.log(this.state.vehicules.length);
+    // console.log(this.state.vehicules.length);
+    let vagas = localStorage.getItem("vagas")
+    
     content = (
       <ul>
         {isChildrenEmpty(
@@ -112,12 +114,14 @@ class List extends Component {
         )}
       </ul>
     );
-
+    
     return (
       <div className="list_vehicule">
+        <h1>{this.state.vehicules.length - vagas}</h1>
         <ToastContainer />
         <AddButton url={`/${this.state.parking_id}/vehicules/add/`} />
         {content}
+        
       </div>
     );
   }
