@@ -1,0 +1,18 @@
+.btn-default-add{
+    position: fixed;
+    right: 35px;
+    top: 69px;
+    border-radius: 500px !important;    
+    font-size:16px;
+    z-index: 999;
+    width: 50px;
+    height: 50px;
+    line-height:37px;
+    background: #007bff;
+    border: 0;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+  }
+  
+  .btn-default-add:hover{
+    background: #007bff !important;
+  }
