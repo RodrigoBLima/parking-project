@@ -15,7 +15,7 @@ export default class TopMenu extends Component {
       <div className="header">
         <div className="navbar">
           <div className="logo">
-            Bem Vindo,{" "}
+            Bem Vindo,  
             <Link to="/" className="link">
               {this.props.parking_name}
             </Link>
@@ -25,6 +25,11 @@ export default class TopMenu extends Component {
               <li>
                 <Link to={`/${this.props.parking_id}/employees/`}>
                   Funcionários
+                </Link>
+              </li>
+              <li>
+                <Link to={`/${this.props.parking_id}/edit/`}>
+                  Empresa
                 </Link>
               </li>
               <li>
