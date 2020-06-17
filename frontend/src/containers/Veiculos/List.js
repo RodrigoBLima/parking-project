@@ -13,10 +13,14 @@ import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import './index.css'
 
 class List extends Component {
-  state = {
+  constructor(props) {
+    super(props);
+    this.state = {
     vehicules: [],
     parking_id: this.props.match.params.parking_id,
   };
+this.deleteVehicule = this.deleteVehicule.bind(this)
+}
 
   componentDidMount() {
     let url = `http://127.0.0.1:8000/api/v1/cars/?id=&idEstacionamento=${this.state.parking_id}`;
