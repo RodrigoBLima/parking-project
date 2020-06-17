@@ -108,12 +108,13 @@ const Login = () => {
           localStorage.setItem("parking-token", response.data.access_token);
           //
           getUser();
-          toast("FOOI.");
+          toast("Login realizado com sucesso.");
         }
       })
       .catch((error) => {
         // setError(`Error: ${error.response.data['error_description']}`)
         console.log("ERROR", error);
+        toast("Email ou senha inválidos.");
       });
     setTimeout(() => {
       // setError(null)
