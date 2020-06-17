@@ -15,8 +15,7 @@ export default class TopMenu extends Component {
       <div className="header">
         <div className="navbar">
           <div className="logo">
-            Bem Vindo,  
-            <Link to="/" className="link">
+            Bem Vindo,   <Link to="/" className="link">
               {this.props.parking_name}
             </Link>
           </div>
