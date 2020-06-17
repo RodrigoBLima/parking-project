@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FiEdit2, FiDelete, FiTrash2 } from "react-icons/fi";
+import { FiEdit2, FiTrash2 } from "react-icons/fi";
 // import { Table } from "reactstrap";
 import { Link } from "react-router-dom";
 import AddButton from "../../components/Add_button";
@@ -8,6 +8,7 @@ import AddButton from "../../components/Add_button";
 import { ToastContainer, toast } from "react-toastify";
 import "./index.css";
 import axios from "axios";
+import myConfig from '../../configs/config'
 import { isChildrenEmpty } from "../../helpers/utils";
 
 export default class List extends Component {
@@ -17,7 +18,7 @@ export default class List extends Component {
   };
 
   componentDidMount() {
-    const URL = `http://127.0.0.1:8000/api/v1/employees/?id=&idEstacionamento=${this.state.parking_id}`;
+    const URL = `${myConfig.API_URL}/employees/?id=&idEstacionamento=${this.state.parking_id}`;
 
     axios({
       baseURL: URL,
@@ -47,7 +48,7 @@ export default class List extends Component {
 
   deleteEmployee(id) {
     console.log(id);
-    let DELETE_EMPLOYEE = `http://127.0.0.1:8000/api/v1/employees/?id=${id}&idEstacionamento=${this.state.parking_id}`;
+    let DELETE_EMPLOYEE = `${myConfig.API_URL}/employees/?id=${id}&idEstacionamento=${this.state.parking_id}`;
 
         if (!window.confirm('Realmente deseja excluir o veículo  ?')) {
             return 0;

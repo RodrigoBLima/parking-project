@@ -4,6 +4,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import SelectBox from "../../components/SelectBox";
+import myConfig from '../../configs/config'
 // SelectBox
 export default class Form extends Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class Form extends Component {
   componentDidMount() {
     let { vehicule_id, parking_id } = this.state;
     if (vehicule_id !== undefined) {
-      let url = `http://127.0.0.1:8000/api/v1/cars/?id=${parseInt(
+      let url = `${myConfig.API_URL}/cars/?id=${parseInt(
         vehicule_id
       )}&idEstacionamento=${parseInt(parking_id)}`;
       axios({
@@ -57,7 +58,7 @@ export default class Form extends Component {
       });
     }
     //LOADING EMPLOYEES
-    const URL_EMPLOYEES = `http://127.0.0.1:8000/api/v1/employees/?id=&idEstacionamento=${parseInt(
+    const URL_EMPLOYEES = `${myConfig.API_URL}/employees/?id=&idEstacionamento=${parseInt(
       this.state.parking_id
     )}`;
 
@@ -109,13 +110,15 @@ export default class Form extends Component {
   handleSubmit(e) {
     e.preventDefault();
     let { vehicule_id, parking_id } = this.state;
+
     if (vehicule_id !== undefined) {
       //put
-      let url = `http://127.0.0.1:8000/api/v1/cars/?id=${parseInt(
+      let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/?id=${parseInt(
         vehicule_id
       )}&idEstacionamento=${parseInt(parking_id)}`;
+      
       axios({
-        baseURL: url,
+        baseURL: UPDATE_VEHICULE,
         method: "put",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
@@ -150,9 +153,9 @@ export default class Form extends Component {
         });
     } else {
       //post
-      let url = `http://127.0.0.1:8000/api/v1/cars/?id=&idEstacionamento=${parseInt(parking_id)}`;
+      let CREATE_VEHICULE = `${myConfig.API_URL }/?id=&idEstacionamento=${parseInt(parking_id)}`;
       axios({
-        baseURL: url,
+        baseURL: CREATE_VEHICULE,
         method: "post",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("parking-token")}`,

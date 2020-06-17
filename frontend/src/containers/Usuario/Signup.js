@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import './index.css'
+import myConfig from '../../configs/config'
 
 // import logoImg from '../../assets/logo.svg';
-import api from '../../services/api'
+// import api from '../../services/api'
 import { Link, useHistory } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import { FiArrowLeft } from 'react-icons/fi'
@@ -29,7 +30,7 @@ export default function Register() {
             email : username
         }
         try {
-            let url = "http://127.0.0.1:8000/api/v1/parkings/"
+            let url = myConfig.API_URL + "/parkings/"
             axios({
                 baseURL: url,
                 method: "post",

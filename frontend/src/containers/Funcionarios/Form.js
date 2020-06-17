@@ -8,6 +8,7 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 // import axios from "axios";
 import api from "../../services/api";
+import myConfig from '../../configs/config'
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 // export default api;
@@ -49,7 +50,8 @@ class Form extends Component {
     // console.log("++++++++++++");
     // let {employee_id,parking_id}=this.state.
     if (this.state.employee_id !== -1) {
-      let EMPLOYEE_URL = `http://127.0.0.1:8000/api/v1/employees/?id${parseInt(
+
+      let EMPLOYEE_URL = `${myConfig.API_URL}/employees/?id${parseInt(
         this.state.employee_id
       )}=&idEstacionamento=${parseInt(this.state.parking_id)}`;
 
@@ -81,10 +83,10 @@ class Form extends Component {
       });
     }
 
-    const URL = "http://127.0.0.1:8000/api/v1/countries/";
+    const PAIS_URL = `${myConfig.API_URL}/countries/`;
 
     axios({
-      baseURL: URL,
+      baseURL: PAIS_URL,
       method: "get",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
@@ -168,17 +170,17 @@ class Form extends Component {
 
   handleSave(e) {
     e.preventDefault();
-    console.log(this.state.nome)
-    // let {employee_id,parking_id}=this.state.
-    console.log(this.state.employee_id)
-    if (1>2) {
+    // console.log(this.state.nome)
+    let {employee_id,parking_id}=this.state
+    // console.log(this.state.employee_id)
+    if (employee_id !== undefined){
       //put
-      let URL = `http://127.0.0.1:8000/api/v1/employees/?id${parseInt(
-        this.state.employee_id
-      )}=&idEstacionamento=${parseInt(this.state.parking_id)}`;
+      let UPDATE_EMPLOYEE = `${myConfig.API_URL}/employees/?id${parseInt(
+        employee_id
+      )}=&idEstacionamento=${parseInt(parking_id)}`;
 
       axios({
-        baseURL: URL,
+        baseURL: UPDATE_EMPLOYEE,
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
@@ -215,10 +217,10 @@ class Form extends Component {
     } else {
       //post
       //put
-      let URL = `http://127.0.0.1:8000/api/v1/employees/?id$=&idEstacionamento=${this.props.match.params.parking_id}`;
+      let CREATE_EMPLOYEE = `${myConfig.API_URL}/employees/?id$=&idEstacionamento=${this.props.match.params.parking_id}`;
 
       axios({
-        baseURL: URL,
+        baseURL: CREATE_EMPLOYEE,
         method: "post",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("parking-token")}`,

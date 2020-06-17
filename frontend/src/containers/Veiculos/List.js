@@ -9,21 +9,22 @@ import { isChildrenEmpty } from "../../helpers/utils";
 import { ToastContainer, toast } from "react-toastify";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 // import {} from '.'
+import myConfig from "../../configs/config";
 
-import './index.css'
+import "./index.css";
 
 class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    vehicules: [],
-    parking_id: this.props.match.params.parking_id,
-  };
-this.deleteVehicule = this.deleteVehicule.bind(this)
-}
+      vehicules: [],
+      parking_id: this.props.match.params.parking_id,
+    };
+    this.deleteVehicule = this.deleteVehicule.bind(this);
+  }
 
   componentDidMount() {
-    let url = `http://127.0.0.1:8000/api/v1/cars/?id=&idEstacionamento=${this.state.parking_id}`;
+    let url = `${myConfig.API_URL}/cars/?id=&idEstacionamento=${this.state.parking_id}`;
 
     axios({
       baseURL: url,
@@ -41,7 +42,7 @@ this.deleteVehicule = this.deleteVehicule.bind(this)
 
   deleteVehicule(id) {
     console.log(id);
-    let DELETE_VEHICULE = `http://127.0.0.1:8000/api/v1/cars/?id=${id}&idEstacionamento=${this.state.parking_id}`;
+    let DELETE_VEHICULE = `${myConfig.API_URL}/cars/?id=${id}&idEstacionamento=${this.state.parking_id}`;
 
     if (!window.confirm("Realmente deseja excluir o veículo  ?")) {
       return 0;
@@ -66,7 +67,7 @@ this.deleteVehicule = this.deleteVehicule.bind(this)
 
   render() {
     let content;
-console.log(this.state.vehicules.length)
+    console.log(this.state.vehicules.length);
     content = (
       <ul>
         {isChildrenEmpty(

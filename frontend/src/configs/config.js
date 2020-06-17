@@ -1,9 +1,8 @@
-// let WEATHER_DOMAIN_API_KEY = "185871f63cc882253dcfa3ef909277e3";
 
 export default {
-	STATIC_URL: process.env.REACT_APP_STATIC_URL,
-	API_URL: process.env.REACT_APP_API_URL,
-	ABSOLUTE_URL : process.env.REACT_ABSOLUTE_STATIC_URL,
-	BE_URL : process.env.REACT_APP_BE_URL,
+	STATIC_URL: "http://127.0.0.1:8000/static/",
+	API_URL: "http://127.0.0.1:8000/api/v1",
+	ABSOLUTE_URL : "http://127.0.0.1:3000/",
+	BE_URL : "http://127.0.0.1:8000",
 	
 };
