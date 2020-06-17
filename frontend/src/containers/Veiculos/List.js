@@ -24,7 +24,7 @@ class List extends Component {
   }
 
   componentDidMount() {
-    let url = `${myConfig.API_URL}/cars/?id=&idEstacionamento=${this.state.parking_id}`;
+    let url = `${myConfig.API_URL}/cars/?id=&idEstacionamento=${parseInt(this.state.parking_id)}`;
 
     axios({
       baseURL: url,

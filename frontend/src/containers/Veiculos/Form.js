@@ -153,7 +153,7 @@ export default class Form extends Component {
         });
     } else {
       //post
-      let CREATE_VEHICULE = `${myConfig.API_URL }/?id=&idEstacionamento=${parseInt(parking_id)}`;
+      let CREATE_VEHICULE = `${myConfig.API_URL }/cars/?id=&idEstacionamento=${parseInt(parking_id)}`;
       axios({
         baseURL: CREATE_VEHICULE,
         method: "post",
