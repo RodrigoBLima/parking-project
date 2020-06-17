@@ -7,18 +7,21 @@ from .serializers import EstablishmentSerializer
 
 from rest_framework import viewsets, decorators, response, status
 
+from .filtersets import UserFilter
 
 class EstablishmentViewSet(viewsets.ModelViewSet):
     model = User
     queryset = User.objects.all()
     serializer_class = EstablishmentSerializer
+    filter_class        = UserFilter
 
-    def get_queryset(self):
-        # farm_id = self.request.GET.get('farm_id')
-        print(self.request.GET.get('id'))
-        print('uai')
-        print(self.kwargs.get('id'))
-        pass
+
+    # def get_queryset(self):
+    #     # farm_id = self.request.GET.get('farm_id')
+    #     print(self.request.GET.get('id'))
+    #     print('uai')
+    #     print(self.kwargs.get('id'))
+    #     pass
 
     
 
