@@ -50,10 +50,8 @@ class Form extends Component {
     // console.log("++++++++++++");
     // let {employee_id,parking_id}=this.state.
     if (this.state.employee_id !== -1) {
-
-      let EMPLOYEE_URL = `${myConfig.API_URL}/employees/?id${parseInt(
-        this.state.employee_id
-      )}=&idEstacionamento=${parseInt(this.state.parking_id)}`;
+      console.log("oporra",this.state.employee_id)
+      let EMPLOYEE_URL = "http://127.0.0.1:8000/api/v1/employees/?id="+this.state.employee_id+"&idEstacionamento="+this.state.parking_id
 
       axios({
         baseURL: EMPLOYEE_URL,
@@ -63,22 +61,25 @@ class Form extends Component {
         },
       }).then((res) => {
         console.log("***********++++++++");
-        console.log(res.data[0]);
+        // console.log(res.data[0]);
+        console.log(res.data)
         console.log("***********++++++++");
+        let data = res.data[0];
+
         this.setState({
           title: "Atualizar dados",
-          nome: res.data[0].nome,
-          credential: res.data[0].credential,
-          telefone: res.data[0].telefone,
-          cpf: res.data[0].cpf,
-          rg: res.data[0].rg,
-          country:res.data[0].pais ,
+          nome: data.nome,
+          credential: data.credential,
+          telefone: data.telefone,
+          cpf: data.cpf,
+          rg: data.rg,
+          country:data.pais ,
           // country_name: [],
-          location: res.data[0].localidade,
-          cargo: res.data[0].cargo,
-          dt_nasc: res.data[0].nasc,
-          dt_ini: res.data[0].dt_ini,
-          dt_end: res.data[0].dt_end,
+          location: data.localidade,
+          cargo: data.cargo,
+          dt_nasc: data.nasc,
+          dt_ini: data.dt_ini,
+          dt_end: data.dt_end,
         });
       });
     }
@@ -163,8 +164,10 @@ class Form extends Component {
     form_data.append("dt_end", this.state.dt_end);
     form_data.append("dt_ini", this.state.dt_ini);
     form_data.append("dt_nasc", this.state.dt_nasc);
-    form_data.append("idEstacionamento", this.state.parking_id);
-  
+    form_data.append("idEstacionamento", parseInt(this.state.parking_id));
+    if(this.state.employee_id !== undefined){
+    form_data.append("id", parseInt(this.state.employee_id));
+  }
     return form_data;
   }
 
@@ -173,12 +176,12 @@ class Form extends Component {
     // console.log(this.state.nome)
     let {employee_id,parking_id}=this.state
     // console.log(this.state.employee_id)
+    console.log(employee_id !== undefined)
     if (employee_id !== undefined){
       //put
-      let UPDATE_EMPLOYEE = `${myConfig.API_URL}/employees/?id${parseInt(
-        employee_id
-      )}=&idEstacionamento=${parseInt(parking_id)}`;
-
+      console.log('TA NA PORRA DO PUT SIM')
+      let UPDATE_EMPLOYEE = `${myConfig.API_URL}/employees/${employee_id}/`;
+      // `${myConfig.API_URL}/employees/?id=${id}&idEstacionamento=${this.state.parking_id}`
       axios({
         baseURL: UPDATE_EMPLOYEE,
         method: "PUT",
@@ -371,7 +374,7 @@ class Form extends Component {
               value={this.state.dt_nasc}
               name="dt_nasc"
               onChange={(e) => this.handleChangeText(e)}
-              type="date"
+              // type="date"
               placeholder="Data Nascimento"
             />
             <input

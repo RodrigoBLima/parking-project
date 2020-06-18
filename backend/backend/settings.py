@@ -138,6 +138,7 @@ AUTH_USER_MODEL = 'parking.User'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+APPEND_SLASH=False
 
 OAUTH2_PROVIDER = {
     # this is the list of available scopes

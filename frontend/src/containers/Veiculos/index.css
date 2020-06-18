@@ -1,7 +1,12 @@
 /* .list_vehicule {
 } */
 
-.form_vehicule {
+.title {
+  margin-bottom: 50px;
+  background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    position: relative;
 }
 .list_vehicule {
   margin-top: 25px;

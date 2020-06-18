@@ -15,9 +15,9 @@ class Empregados(models.Model):
 
     idEstacionamento   = models.ForeignKey(
         'parking.User',
-         on_delete=models.CASCADE,
-         related_name='establishment_emp',
-          verbose_name="Funcionario Estabelecimento"
+        on_delete=models.CASCADE,
+        related_name='establishment_emp',
+        verbose_name="Funcionario Estabelecimento"
     )
 
     def __str__(self):

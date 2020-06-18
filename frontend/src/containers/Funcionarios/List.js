@@ -55,7 +55,7 @@ export default class List extends Component {
     console.log(id);
     let DELETE_EMPLOYEE = `${myConfig.API_URL}/employees/?id=${id}&idEstacionamento=${this.state.parking_id}`;
 
-        if (!window.confirm('Realmente deseja excluir o veículo  ?')) {
+        if (!window.confirm('Realmente deseja excluir este funcionário  ?')) {
             return 0;
         } else {
             axios({

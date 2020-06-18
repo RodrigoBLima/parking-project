@@ -117,7 +117,7 @@ class List extends Component {
     
     return (
       <div className="list_vehicule">
-        <h1>{this.state.vehicules.length - vagas}</h1>
+        <div className="title"> <h3>Vagas disponíveis: {vagas - this.state.vehicules.length}</h3></div>
         <ToastContainer />
         <AddButton url={`/${this.state.parking_id}/vehicules/add/`} />
         {content}

@@ -29,6 +29,7 @@ export default class Form extends Component {
 
   componentDidMount() {
     let { vehicule_id, parking_id } = this.state;
+
     if (vehicule_id !== undefined) {
       let url = `${myConfig.API_URL}/cars/?id=${parseInt(
         vehicule_id
@@ -113,9 +114,7 @@ export default class Form extends Component {
 
     if (vehicule_id !== undefined) {
       //put
-      let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/?id=${parseInt(
-        vehicule_id
-      )}&idEstacionamento=${parseInt(parking_id)}`;
+      let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/${parseInt(vehicule_id)}/`;
 
       axios({
         baseURL: UPDATE_VEHICULE,
