@@ -170,3 +170,9 @@ th, td {
 tbody tr:nth-child(odd) {
   background: #ccc;
 }
+
+.spinner{
+  margin-top: 50px;
+  margin-left: 50%;
+  min-height: 200px;
+}

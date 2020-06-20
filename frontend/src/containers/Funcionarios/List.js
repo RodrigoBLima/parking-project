@@ -10,6 +10,7 @@ import "./index.css";
 import axios from "axios";
 import myConfig from '../../configs/config'
 import { isChildrenEmpty } from "../../helpers/utils";
+import Spinner from "../../components/Spinner";
 
 export default class List extends Component {
   constructor(props){
@@ -17,6 +18,7 @@ export default class List extends Component {
     this.state = {
       employees: [],
       parking_id: this.props.match.params.parking_id,
+      loading:true
     }
     this.deleteEmployee=this.deleteEmployee.bind(this)
   }
@@ -35,7 +37,7 @@ export default class List extends Component {
       console.log("***********");
       console.log(res.data);
       console.log("***********");
-      this.setState({ employees: res.data });
+      this.setState({ employees: res.data,loading:false });
     });
 
     // try {
@@ -79,6 +81,10 @@ export default class List extends Component {
   render() {
     let content;
 
+    if(this.state.loading === true){
+      content = <div className="spinner"> <Spinner loading={this.state.loading}/></div>
+    }
+    else{
     content = (
       <ul>
         {isChildrenEmpty(
@@ -122,7 +128,8 @@ export default class List extends Component {
           </>
         )}
       </ul>
-    );
+    )
+            }
 
     return (
       <div className="list_employee">

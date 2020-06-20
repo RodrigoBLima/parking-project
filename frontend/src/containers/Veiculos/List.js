@@ -10,8 +10,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 // import {} from '.'
 import myConfig from "../../configs/config";
-
+// Spinner
 import "./index.css";
+import Spinner from "../../components/Spinner";
 
 class List extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class List extends Component {
     this.state = {
       vehicules: [],
       parking_id: this.props.match.params.parking_id,
+      loading: true
     };
     this.deleteVehicule = this.deleteVehicule.bind(this);
   }
@@ -36,7 +38,7 @@ class List extends Component {
       console.log("***********");
       console.log(res.data);
       console.log("***********");
-      this.setState({ vehicules: res.data });
+      this.setState({ vehicules: res.data,loading:false });
     });
   }
 
@@ -69,7 +71,11 @@ class List extends Component {
     let content;
     // console.log(this.state.vehicules.length);
     let vagas = localStorage.getItem("vagas")
-    
+    if (this.state.loading === true) {
+      content = <div className="spinner"><Spinner loading={this.state.loading}/> </div>
+
+    }
+    else {
     content = (
       <ul>
         {isChildrenEmpty(
@@ -113,7 +119,8 @@ class List extends Component {
           </>
         )}
       </ul>
-    );
+    )
+  }
     
     return (
       <div className="list_vehicule">
