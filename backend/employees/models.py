@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import date, datetime, timedelta
+
 
 class Empregados(models.Model):
     nome = models.CharField(max_length=80,blank=False, verbose_name="Nome do funcionario")
@@ -9,9 +11,9 @@ class Empregados(models.Model):
     pais = models.ForeignKey('location.Country', on_delete=models.PROTECT, verbose_name="País", related_name='employee_country',default=32)
     localidade = models.CharField(max_length=80, verbose_name="Localidade", default="")
     cargo = models.CharField(max_length=80, verbose_name="cargo", default="")
-    dt_nasc = models.CharField(max_length=80, verbose_name="Data Nascimento", default="")
-    dt_ini = models.CharField(max_length=80, verbose_name="Data entrada", default="")
-    dt_end = models.CharField(max_length=80, verbose_name="Data Saida", default="")
+    dt_nasc =models.DateTimeField(auto_now=False, auto_now_add=False, verbose_name="Data Nascimento")
+    dt_ini = models.DateTimeField(auto_now=False, auto_now_add=False, default=datetime.now, verbose_name="Data entrada")
+    dt_end = models.DateTimeField(auto_now=False, auto_now_add=False, verbose_name="Data Saida")
 
     idEstacionamento   = models.ForeignKey(
         'parking.User',

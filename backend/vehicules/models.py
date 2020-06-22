@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date, datetime, timedelta
 
 # Create your models here.
 
@@ -9,8 +10,8 @@ class Veiculos(models.Model):
     ano = models.CharField(max_length=80,blank=False, verbose_name="Ano de fabricacao")
     cor = models.CharField(max_length=80,blank=False, verbose_name="Cor do veiculo")
     proprietario = models.CharField(max_length=80,blank=False, verbose_name="Nome do dono")
-    h_entrada            =models.CharField(max_length=80, verbose_name="Data entrada", default="")
-    h_saida            = models.CharField(max_length=80, verbose_name="Data Saida", default="")
+    h_entrada   =models.DateTimeField(auto_now=False, auto_now_add=False,default=datetime.now, verbose_name="Data entrada")
+    h_saida            = models.DateTimeField(auto_now=False, auto_now_add=False,verbose_name="Data Saida")
     idEstacionamento   = models.ForeignKey(
         'parking.User',
         on_delete=models.CASCADE,

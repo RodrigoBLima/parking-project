@@ -49,6 +49,7 @@ class User(AbstractUser):
     cep = models.CharField(max_length=9, blank=True,verbose_name="CEP")
     location = models.CharField(max_length=50, verbose_name="Localidade", blank=True)
     vagas = models.IntegerField(verbose_name="Vagas", blank=True, default=0)
+    hora = models.IntegerField(verbose_name="Meia hora", blank=True, default=5)
     pais = models.ForeignKey('location.Country', on_delete=models.PROTECT, verbose_name="País", related_name='establishment_country',default=32)
     # cidade = models.CharField(max_length=80, verbose_name="Localidade", default="")
     cnpj = models.CharField(max_length=15, blank=True,verbose_name="CNPJ", default="")

@@ -11,5 +11,5 @@ class EstablishmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('name_establishment', 'cep', 'location',
-                  'vagas', 'pais', 'cnpj', 'email', 'nome_pais','username','id')
+                  'vagas', 'pais', 'cnpj', 'email', 'nome_pais','username','id','hora')
         extra_kwargs = {'password': {'write_only': True}}
