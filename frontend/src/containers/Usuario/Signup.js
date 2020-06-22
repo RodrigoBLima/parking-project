@@ -47,7 +47,7 @@ export default function Register() {
 
             // console.log('**********************')
 
-            // toast(`Seu ID de acesso: ${res.data.id}`) 
+            toast(`Cadastro realizado com sucesso !`) 
              
             setTimeout(() => {
                 history.push('/login/')
