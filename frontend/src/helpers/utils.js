@@ -17,6 +17,6 @@ export const getFormatedDate = (dt) => {
     minutes = ("0" + data.getMinutes()).slice(-2).toString(),
     seconds = ("0" + data.getSeconds()).slice(-2).toString();
 
-    return diaF + "/" + mesF + "/" + anoF + " - " + hour + ":" + minutes + ":" + seconds; // 
+    return diaF + "/" + mesF + "/" + anoF + " - " + hour + ":" + minutes //  31/12/1969 - 18:00
 
 }
