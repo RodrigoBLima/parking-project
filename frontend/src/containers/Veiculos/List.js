@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import AddButton from "../../components/Add_button";
 // import Table from "react-bootstrap/Table";
 import axios from "axios";
-import { isChildrenEmpty } from "../../helpers/utils";
+import { isChildrenEmpty, getFormatedDate } from "../../helpers/utils";
 import { ToastContainer, toast } from "react-toastify";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 // import {} from '.'
@@ -13,6 +13,7 @@ import myConfig from "../../configs/config";
 // Spinner
 import "./index.css";
 import Spinner from "../../components/Spinner";
+
 
 class List extends Component {
   constructor(props) {
@@ -66,6 +67,17 @@ class List extends Component {
         });
     }
   }
+  // funcao para formatar a data
+  // formatDate(date){
+
+  // }
+
+  calculateValue(he,hs){
+    let horas = localStorage.getItem("hours")
+    console.log(he)
+    console.log(hs)
+    console.log(typeof(hs))
+  }
 
   render() {
     let content;
@@ -95,10 +107,13 @@ class List extends Component {
                 <p>{vehicule.placa}</p>
 
                 <strong>Entrada: </strong>
-                <p>{vehicule.h_entrada}</p>
+                <p>{getFormatedDate(vehicule.h_entrada)}</p>
 
                 <strong>Saida: </strong>
-                <p>{vehicule.h_saida}</p>
+                <p>{getFormatedDate(vehicule.h_saida)}</p>
+
+                <strong>Valor a ser cobrado: </strong>
+                <p>{this.calculateValue(vehicule.h_entrada,vehicule.h_saida )}</p>
 
                 <button type="button" style={{ marginRight: 30 }}>
                   <Link

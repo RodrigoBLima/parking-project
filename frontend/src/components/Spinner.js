@@ -30,4 +30,5 @@ class Spinner extends Component {
     );
   }
 }
-export default Spinner
+export default Spinner;
+// https://www.npmjs.com/package/react-spinners

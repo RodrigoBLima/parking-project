@@ -5,6 +5,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import SelectBox from "../../components/SelectBox";
 import myConfig from '../../configs/config'
+import { getFormatedDate } from "../../helpers/utils";
+
 // SelectBox
 export default class Form extends Component {
   constructor(props) {
@@ -54,7 +56,7 @@ export default class Form extends Component {
           ano: data.ano,
           cor: data.cor,
           h_entrada: data.h_entrada,
-          h_saida: data.saida,
+          h_saida: data.h_saida,
         });
       });
     }
@@ -84,9 +86,35 @@ export default class Form extends Component {
   }
   handleInitDateChange(e) {
     console.log("init", e);
+    // console.log(getFormatedDate(e))
+    // let data = new Date(e),
+    // // console.log(data)
+    // // console.log(typeof(data))
+    // // console.log()
+    // dia = data.getDate().toString(),
+    // diaF = (dia.length == 1) ? '0' + dia : dia,
+    // mes = (data.getMonth() + 1).toString(),
+    // mesF = (mes.length == 1) ? '0' + mes : mes,
+    // anoF = data.getFullYear(),
+    // hour = ("0" + data.getHours()).slice(-2).toString(),
+    // minutes = ("0" + data.getMinutes()).slice(-2).toString(),
+    // seconds = ("0" + data.getSeconds()).slice(-2).toString();
+
+    // console.log( anoF + "-" + mesF + "-" + diaF + "T" + hour + ":" + minutes + ":" + seconds) // 2020-02-05T12:54:00
+    console.log(getFormatedDate(e))
+    this.setState({
+      h_entrada:e
+    })
+    
+    
   }
   handleEndDateChange(e) {
-    console.log("end", e);
+    console.log("end", e)
+    // console.log(getFormatedDate(e))
+    this.setState({
+      h_saida: e
+    })
+
   }
   getFormData() {
     const form_data = new FormData();
@@ -98,7 +126,7 @@ export default class Form extends Component {
     form_data.append("ano", this.state.ano);
     form_data.append("cor", this.state.cor);
     form_data.append("h_entrada", this.state.h_entrada);
-    form_data.append("h_saida", this.state.h_saida);
+    form_data.append("h_saida",this.state.h_saida);
     form_data.append("idEstacionamento", this.state.parking_id);
 
     form_data.append("idFuncionario", this.state.employe_id);
@@ -278,22 +306,38 @@ export default class Form extends Component {
               name="modelo"
             />
             <div className="input-group">
-              <input
+              {/* <input
                 value={this.state.h_entrada}
-                // type="date"
-              onChange={(e) => this.handleChangeText(e)}
+                type="datetime"
+               onChange={(e) => this.handleInitDateChange(e.target.value)}
                 placeholder="Hora entrada"
                 name="h_entrada"
-              />
+              /> */}
+              <input 
+              type="datetime-local" 
+              onChange={(e) => this.handleInitDateChange(e.target.value)}
+              name="h_entrada" 
+        value={this.state.h_entrada}
+        placeholder="Hora entrada"
+
+       />
             </div>
             <div className="input-group">
-              <input
+              {/* <input
                 value={this.state.h_saida}
-                // type="date"
-                onChange={(e) => this.handleChangeText(e)}
+                type="date"
+                onChange={(e) => this.handleEndDateChange(e.target.value)}
                 placeholder="Hora saida"
                 name="h_saida"
-              />
+              /> */}
+                <input 
+              type="datetime-local" 
+              onChange={(e) => this.handleEndDateChange(e.target.value)}
+              placeholder="Hora saida"
+              name="h_saida"
+              // placeholder="Hora saida"
+              value={this.state.h_saida}
+       />
             </div>
           </div>
           {employees}

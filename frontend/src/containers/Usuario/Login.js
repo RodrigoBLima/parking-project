@@ -67,12 +67,14 @@ const Login = () => {
         const parking = res.data.id;
         const parking_name = res.data.name_establishment;
         const vagas = res.data.vagas;
+        const horas = res.data.hora
 
 
         localStorage.setItem("parking_id", JSON.stringify(parking));
         localStorage.setItem("parking_name", parking_name);
         localStorage.setItem("parking", JSON.stringify(client));
         localStorage.setItem("vagas", vagas);
+        localStorage.setItem("horas", horas);
 
         window.location.reload(false);
       });

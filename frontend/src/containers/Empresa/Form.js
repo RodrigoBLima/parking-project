@@ -24,6 +24,7 @@ class Form extends Component {
       cnpj: "",
       vagas: "",
       email: "",
+      horas:"",
     };
     this.handleSave = this.handleSave.bind(this);
   }
@@ -43,7 +44,7 @@ class Form extends Component {
       console.log("***********++++++++");
       this.setState({
         name_establishment: res.data.name_establishment,
-        // country_name: [],
+        horas: res.data.hora,
         cep: res.data.cep,
         country: res.data.pais,
         location: res.data.location,
@@ -81,7 +82,7 @@ class Form extends Component {
     form_data.append("vagas", this.state.vagas);
     form_data.append("email", this.state.email);
     form_data.append("username", this.state.email);
-    // form_data.append("dt_end", this.state.dt_end);
+    form_data.append("hora", this.state.horas);
     // form_data.append("dt_ini", this.state.dt_ini);
     // form_data.append("dt_nasc", this.state.dt_nasc);
     // form_data.append("idEstacionamento", this.state.parking_id);
@@ -107,6 +108,7 @@ class Form extends Component {
         if (res.status === 200) {
           //   console.log(response.data);
           // this.setState({ submited_update: true });
+          localStorage.setItem("horas", res.data.horas);
           localStorage.setItem("parking_name", res.data.name_establishment);
           toast("Atualizado com sucesso!");
         }
@@ -273,6 +275,12 @@ class Form extends Component {
             placeholder="CNPJ da empresa"
             // type="email"
           />
+            <input
+              value={this.state.horas}
+              name="horas"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="Valor por hora"
+            />
           <button className="button" type="submit">
             Atualizar
           </button>

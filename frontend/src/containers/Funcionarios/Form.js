@@ -12,6 +12,7 @@ import myConfig from '../../configs/config'
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 // export default api;
+import { getFormatedDate } from "../../helpers/utils";
 
 class Form extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class Form extends Component {
     dt_nasc: "",
     dt_ini: "",
     dt_end: "",
+    // horas:"",
     // employee_id:this.props.match.params.employee_id ,
     employee_id:
       this.props.match.params.employee_id === undefined
@@ -74,7 +76,7 @@ class Form extends Component {
           cpf: data.cpf,
           rg: data.rg,
           country:data.pais ,
-          // country_name: [],
+          // horas: data.horas,
           location: data.localidade,
           cargo: data.cargo,
           dt_nasc: data.nasc,
@@ -259,6 +261,7 @@ class Form extends Component {
         });
     }
   }
+
   render() {
     console.log(this.state.employee_id)
     console.log(this.state.parking_id)
@@ -373,22 +376,22 @@ class Form extends Component {
             <input
               value={this.state.dt_nasc}
               name="dt_nasc"
-              onChange={(e) => this.handleChangeText(e)}
-              // type="date"
+              onChange={(e) => this.handleEndDateNasc(e)}
+              type="date"
               placeholder="Data Nascimento"
             />
             <input
               value={this.state.dt_ini}
-              // type="date"
+              type="date"
               name="dt_ini"
-              onChange={(e) => this.handleChangeText(e)}
+              onChange={(e) => this.handleInitDateChange(e)}
               placeholder="Data entrada"
             />
             <input
               value={this.state.dt_end}
-              // type="date"
+              type="date"
               name="dt_end"
-              onChange={(e) => this.handleChangeText(e)}
+              onChange={(e) => this.handleEndDateChange(e)}
               placeholder="Data Saída"
             />
             <input
