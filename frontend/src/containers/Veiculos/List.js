@@ -13,6 +13,8 @@ import myConfig from "../../configs/config";
 // Spinner
 import "./index.css";
 import Spinner from "../../components/Spinner";
+import PdfContainer from "../../components/PdfContainer";
+import Doc from "../../components/DocService";
 
 
 class List extends Component {
@@ -41,6 +43,9 @@ class List extends Component {
       console.log("***********");
       this.setState({ vehicules: res.data,loading:false });
     });
+    
+    this.calculateValue(50,10)
+    console.log("aqui componentDidMount")
   }
 
   deleteVehicule(id) {
@@ -73,11 +78,17 @@ class List extends Component {
   // }
 
   calculateValue(he,hs){
-    let horas = localStorage.getItem("hours")
+    let horas = localStorage.getItem("horas")
+    console.log(horas)
+    let meia_hora = parseInt(horas)/2
+    let quinze_minutos = meia_hora / 2 
+    console.log(meia_hora, quinze_minutos)
+
     console.log(he)
     console.log(hs)
-    console.log(typeof(hs))
+    // console.log(typeof(hs))
   }
+  createPdf = (html) => Doc.createPdf(html);
 
   render() {
     let content;
@@ -142,8 +153,10 @@ class List extends Component {
         <div className="title"> <h3>Vagas disponíveis: {vagas - this.state.vehicules.length}</h3></div>
         <ToastContainer />
         <AddButton url={`/${this.state.parking_id}/vehicules/add/`} />
+        <PdfContainer createPdf={this.createPdf}  >
+
         {content}
-        
+        </PdfContainer>
       </div>
     );
   }

@@ -11,6 +11,10 @@ import axios from "axios";
 import myConfig from '../../configs/config'
 import { isChildrenEmpty } from "../../helpers/utils";
 import Spinner from "../../components/Spinner";
+// import ExportButton from "../../components/ExportButton";
+import PdfContainer from "../../components/PdfContainer";
+import Doc from "../../components/DocService";
+
 
 export default class List extends Component {
   constructor(props){
@@ -77,6 +81,7 @@ export default class List extends Component {
                 });
         }
   }
+  createPdf = (html) => Doc.createPdf(html);
 
   render() {
     let content;
@@ -134,8 +139,12 @@ export default class List extends Component {
     return (
       <div className="list_employee">
         <AddButton url={`/${this.state.parking_id}/employees/add/`} />
+        {/* <ExportButton expor/> */}
         <ToastContainer />
+        <PdfContainer createPdf={this.createPdf} >
+
         {content}
+        </PdfContainer>
       </div>
     );
   }
