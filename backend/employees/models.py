@@ -4,7 +4,7 @@ from datetime import date, datetime, timedelta
 
 class Empregados(models.Model):
     name = models.CharField(max_length=80,blank=False, verbose_name="Nome do funcionario")
-    credential = models.CharField(max_length=9, blank=True,verbose_name="Identificação")
+    credential = models.CharField(max_length=15, blank=True,verbose_name="Identificação")
     cellphone = models.CharField(max_length=50, verbose_name="Telefone", blank=True)
     cpf = models.CharField(max_length=50, verbose_name="Cpf", blank=True)
     rg = models.CharField(max_length=50, verbose_name="Rg", blank=True)

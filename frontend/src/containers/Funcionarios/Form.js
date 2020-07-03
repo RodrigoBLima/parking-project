@@ -7,98 +7,82 @@ import PlacesAutocomplete, {
   getLatLng,
 } from "react-places-autocomplete";
 // import axios from "axios";
-import api from "../../services/api";
-import myConfig from '../../configs/config'
+// import api from "../../services/api";
+import myConfig from "../../configs/config";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 // export default api;
-import { getFormatedDate } from "../../helpers/utils";
+// import { getFormatedDate } from "../../helpers/utils";
 
 class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    nome: "",
-    credential: "",
-    cellphone: "",
-    cpf: "",
-    rg: "",
-    country: 32,
-    country_name: [],
-    location: "",
-    office: "",
-    dt_nasc: "",
-    dt_ini: "",
-    dt_end: "",
-    // horas:"",
-    // employee_id:this.props.match.params.employee_id ,
-    employee_id:
-      this.props.match.params.employee_id === undefined
-        ? -1
-        : this.props.match.params.employee_id,
-    parking_id: this.props.match.params.parking_id,
-    title: "Cadastrar funcionário",
+      name: "",
+      credential: "",
+      cellphone: "",
+      cpf: "",
+      rg: "",
+      country: 32,
+      country_name: [],
+      location: "",
+      office: "",
+      dt_nasc: "",
+      dt_ini: "",
+      dt_end: "",
+      // horas:"",
+      // employee_id:this.props.match.params.employee_id ,
+      employee_id:
+        this.props.match.params.employee_id === undefined
+          ? -1
+          : parseInt(this.props.match.params.employee_id),
+      parking_id: this.props.match.params.parking_id,
+      title: "Cadastrar funcionário",
+    };
+    this.handleSave = this.handleSave.bind(this);
   }
-  this.handleSave = this.handleSave.bind(this);
-}
-getEmployee(){
 
-}
+  getEmployee() {
+    const { employee_id, parking_id } = this.state;
+    let EMPLOYEE_URL = `${myConfig.API_URL}/employees/?id=${this.state.employee_id}&idEstacionamento=${this.state.parking_id}`;
+    // "http://127.0.0.1:8000/api/v1/" +
+    // +
+    // "&idEstacionamento=" +
+    // ;
 
-getCountries(){
+    axios({
+      baseURL: EMPLOYEE_URL,
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
+      },
+    }).then((res) => {
+      console.log("***********++++++++");
+      // console.log(res.data[0]);
+      console.log(res.data);
+      console.log("***********++++++++");
+      let data = res.data[0];
 
-}
-createEmployee(){
-
-}
-updateEmployee(){
-
-}
-
-  componentDidMount() {
-    // let COUNTRIES_URL = .api + "/countries";
-    // try {
-    // const res =
-    // console.log("++++++++++++");
-    // console.log(this.props.match.params.employee_id);
-    // console.log(this.props.match.params.parking_id);
-    // console.log("++++++++++++");
-    // let {employee_id,parking_id}=this.state.
-    if (this.state.employee_id !== -1) {
-      console.log("oporra",this.state.employee_id)
-      let EMPLOYEE_URL = "http://127.0.0.1:8000/api/v1/employees/?id="+this.state.employee_id+"&idEstacionamento="+this.state.parking_id
-
-      axios({
-        baseURL: EMPLOYEE_URL,
-        method: "get",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
-        },
-      }).then((res) => {
-        console.log("***********++++++++");
-        // console.log(res.data[0]);
-        console.log(res.data)
-        console.log("***********++++++++");
-        let data = res.data[0];
-
-        this.setState({
-          title: "Atualizar dados",
-          name: data.name,
-          credential: data.credential,
-          cellphone: data.cellphone,
-          cpf: data.cpf,
-          rg: data.rg,
-          country:data.country ,
-          // horas: data.horas,
-          location: data.location,
-          office: data.office,
-          dt_nasc: data.nasc,
-          dt_ini: data.dt_ini,
-          dt_end: data.dt_end,
-        });
+      this.setState({
+        title: "Atualizar dados",
+        name: data.name,
+        credential: data.credential,
+        cellphone: data.cellphone,
+        cpf: data.cpf,
+        rg: data.rg,
+        country: data.country,
+        // horas: data.horas,
+        location: data.location,
+        office: data.office,
+        dt_nasc: data.dt_nasc,
+        dt_ini: data.dt_ini,
+        dt_end: data.dt_end,
       });
-    }
+    });
+    // }
+  }
 
+  getCountries() {
     const PAIS_URL = `${myConfig.API_URL}/countries/`;
 
     axios({
@@ -113,6 +97,102 @@ updateEmployee(){
       console.log("***********");
       this.setState({ country_name: res.data });
     });
+   
+  }
+  createEmployee() {
+    let CREATE_EMPLOYEE = `${myConfig.API_URL}/employees/?id$=&idEstacionamento=${this.props.match.params.parking_id}`;
+
+    axios({
+      baseURL: CREATE_EMPLOYEE,
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
+      },
+      data: this.getFormData(),
+    })
+      .then((res) => {
+        console.log("***********");
+        console.log(res.data);
+        console.log("***********");
+        if (res.status === 201) {
+          //   console.log(response.data);
+          // this.setState({ submited_update: true });
+          toast("Cadastrado com sucesso!");
+        }
+        setTimeout(() => {
+          // this.setState({
+          //     submited_update: false,
+          // });
+        }, 3000);
+        window.location.href = "/" + this.state.parking_id + "/employees/";
+      })
+      .catch((error) => {
+        // window.error = error.response.data;
+        // console.log(error.response.data)
+        // let error_msg = '';
+        // Object.keys(error.response.data).forEach(function(e){
+        //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
+        // });
+        // this.setState({ error: error_msg});
+        console.error(error);
+        toast("Erro ao cadastrar.");
+      });
+  }
+
+  updateEmployee() {
+    let UPDATE_EMPLOYEE = `${myConfig.API_URL}/employees/${this.state.employee_id}/`;
+    // `${myConfig.API_URL}/employees/?id=${id}&idEstacionamento=${this.state.parking_id}`
+    axios({
+      baseURL: UPDATE_EMPLOYEE,
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
+      },
+      data: this.getFormData(),
+    })
+      .then((res) => {
+        console.log("***********");
+        console.log(res.data);
+        console.log("***********");
+        if (res.status === 200) {
+          //   console.log(response.data);
+          // this.setState({ submited_update: true });
+          toast("Atualizado com sucesso!");
+        }
+        setTimeout(() => {
+          // this.setState({
+          //     submited_update: false,
+          // });
+        }, 3000);
+        window.location.href = "/" + this.state.parking_id + "/employees/";
+      })
+      .catch((error) => {
+        // window.error = error.response.data;
+        // console.log(error.response.data)
+        // let error_msg = '';
+        // Object.keys(error.response.data).forEach(function(e){
+        //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
+        // });
+        // this.setState({ error: error_msg});
+        console.error(error);
+        toast("Erro ao atualizar.");
+      });
+  }
+
+  componentDidMount() {
+    // let COUNTRIES_URL = .api + "/countries";
+    // try {
+    // const res =
+    // console.log("++++++++++++");
+    // console.log(this.props.match.params.employee_id);
+    // console.log(this.props.match.params.parking_id);
+    // console.log("++++++++++++");
+    // let {employee_id,parking_id}=this.state.
+    if (this.state.employee_id !== -1) {
+      // console.log("oporra", this.state.employee_id);
+      this.getEmployee();
+    }
+    this.getCountries()
     console.log("CARREGOU O FORM");
     // } catch (e) {
     // toast("Erro ao buscar dados dos paises.");
@@ -156,24 +236,25 @@ updateEmployee(){
       )
       .catch((error) => console.error("Error", error));
   };
+
   handleInitDateChange(e) {
     console.log("init", e);
     this.setState({
-      dt_ini:e
-    })
+      dt_ini: e,
+    });
   }
   handleEndDateChange(e) {
     console.log("end", e);
-    this.setState({dt_end:e})
+    this.setState({ dt_end: e });
   }
   handleEndDateNasc(e) {
     console.log("end", e);
-    this.setState({dt_nasc:e})
+    this.setState({ dt_nasc: e });
   }
   getFormData() {
     const form_data = new FormData();
 
-    form_data.append("nome", this.state.nome);
+    form_data.append("name", this.state.name);
     form_data.append("office", this.state.office);
     form_data.append("country", this.state.country);
     form_data.append("credential", this.state.credential);
@@ -185,104 +266,33 @@ updateEmployee(){
     form_data.append("dt_ini", this.state.dt_ini);
     form_data.append("dt_nasc", this.state.dt_nasc);
     form_data.append("idEstacionamento", parseInt(this.state.parking_id));
-    if(this.state.employee_id !== undefined){
-    form_data.append("id", parseInt(this.state.employee_id));
-  }
+    if (this.state.employee_id !== undefined) {
+      form_data.append("id", parseInt(this.state.employee_id));
+    }
     return form_data;
   }
 
   handleSave(e) {
     e.preventDefault();
-    // console.log(this.state.nome)
-    let {employee_id,parking_id}=this.state
+    // console.log(this.state.name)
+    let { employee_id, parking_id } = this.state;
     // console.log(this.state.employee_id)
-    console.log(employee_id !== undefined)
-    if (employee_id !== undefined){
+    // console.log(employee_id !== undefined);
+    if (employee_id !== -1) {
       //put
       // console.log('TA NA PORRA DO PUT SIM')
-      let UPDATE_EMPLOYEE = `${myConfig.API_URL}/employees/${employee_id}/`;
-      // `${myConfig.API_URL}/employees/?id=${id}&idEstacionamento=${this.state.parking_id}`
-      axios({
-        baseURL: UPDATE_EMPLOYEE,
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
-        },
-        data: this.getFormData(),
-      })
-        .then((res) => {
-          console.log("***********");
-          console.log(res.data);
-          console.log("***********");
-          if (res.status === 200) {
-            //   console.log(response.data);
-            // this.setState({ submited_update: true });
-            toast("Atualizado com sucesso!");
-          }
-          setTimeout(() => {
-            // this.setState({
-            //     submited_update: false,
-            // });
-          }, 3000);
-          window.location.href = "/" + this.state.parking_id + "/employees/";
-        })
-        .catch((error) => {
-          // window.error = error.response.data;
-          // console.log(error.response.data)
-          // let error_msg = '';
-          // Object.keys(error.response.data).forEach(function(e){
-          //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
-          // });
-          // this.setState({ error: error_msg});
-          console.error(error)
-          toast("Erro ao atualizar.");
-        });
-    } else {
+      this.updateEmployee()
+    } 
+    else {
       //post
       //put
-      let CREATE_EMPLOYEE = `${myConfig.API_URL}/employees/?id$=&idEstacionamento=${this.props.match.params.parking_id}`;
-
-      axios({
-        baseURL: CREATE_EMPLOYEE,
-        method: "post",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
-        },
-        data: this.getFormData(),
-      })
-        .then((res) => {
-          console.log("***********");
-          console.log(res.data);
-          console.log("***********");
-          if (res.status === 201) {
-            //   console.log(response.data);
-            // this.setState({ submited_update: true });
-            toast("Cadastrado com sucesso!");
-          }
-          setTimeout(() => {
-            // this.setState({
-            //     submited_update: false,
-            // });
-          }, 3000);
-          window.location.href = "/" + this.state.parking_id + "/employees/";
-        })
-        .catch((error) => {
-          // window.error = error.response.data;
-          // console.log(error.response.data)
-          // let error_msg = '';
-          // Object.keys(error.response.data).forEach(function(e){
-          //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
-          // });
-          // this.setState({ error: error_msg});
-          console.error(error)
-          toast("Erro ao cadastrar.");
-        });
+     this.createEmployee()
     }
   }
 
   render() {
-    console.log(this.state.employee_id)
-    console.log(this.state.parking_id)
+    // console.log(this.state.employee_id);
+    // console.log(this.state.parking_id);
     let select_countries;
     if (this.state.country_name.length > 0) {
       select_countries = (
@@ -312,50 +322,51 @@ updateEmployee(){
     return (
       // <div className="form_employee">
       <div className="content">
-        <section className="">
+        <section>
           <h1 style={{ color: "#007bff" }}>{this.state.title}</h1>
           <Link to="/" className="back-link">
             <FiArrowLeft size={16} color="007bff" />
             Voltar
           </Link>
         </section>
-        <form onSubmit={this.handleSave}>
-        <div className="form-group">
 
-<label htmlFor="">Nome do funcionário</label>
-
-          <input
-            value={this.state.nome}
-            name="nome"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="Nome"
-          />
-          </div>
+        <form
+          onSubmit={this.handleSave}
+          style={{ marginTop: "220px", marginLeft: "40px" }}
+        >
           <div className="form-group">
-
-<label htmlFor="">CPF do funcionário</label>
-
-
-          <input
-            value={this.state.cpf}
-            name="cpf"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="CPF"
-            // type="email"
-          />
+            <label htmlFor="">Nome do funcionário</label>
+            <input
+              value={this.state.name}
+              name="name"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="Nome"
+            />
           </div>
+
           <div className="form-group">
+            <label htmlFor="">CPF do funcionário</label>
 
-<label htmlFor="">RG do funcionário</label>
+            <input
+              value={this.state.cpf}
+              name="cpf"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="CPF"
+              // type="email"
+            />
+          </div>
 
-          <input
-            value={this.state.rg}
-            name="rg"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="RG"
-            type="text"
-          />
-</div>
+          <div className="form-group">
+            <label htmlFor="">RG do funcionário</label>
+            <input
+              value={this.state.rg}
+              name="rg"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="RG"
+              type="text"
+            />
+          </div>
+
           {select_countries}
 
           <PlacesAutocomplete
@@ -396,21 +407,20 @@ updateEmployee(){
               </div>
             )}
           </PlacesAutocomplete>
+
           <div className="form-group">
+            <label htmlFor="">Telefone do funcionário</label>
+            <input
+              value={this.state.cellphone}
+              name="cellphone"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="Telefone"
+            />
+          </div>
 
-<label htmlFor="">Telefone do funcionário</label>
-
-          <input
-            value={this.state.cellphone}
-            name="cellphone"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="Telefone"
-          />
-</div>
-<div className="form-group">
-<label htmlFor="">Data de nascimento</label>
-
-          {/* <div className="input-group"> */}
+          <div className="form-group">
+            <label htmlFor="">Data de nascimento</label>
+            {/* <div className="input-group"> */}
             <input
               value={this.state.dt_nasc}
               name="dt_nasc"
@@ -418,23 +428,19 @@ updateEmployee(){
               type="datetime-local"
               placeholder="Data Nascimento"
             />
-            </div>
-          
-            <div className="form-group">
+          </div>
 
-<label htmlFor="">cargo</label>
-
+          <div className="form-group">
+            <label htmlFor="">cargo</label>
             <input
               value={this.state.office}
               name="office"
               onChange={(e) => this.handleChangeText(e)}
               placeholder="Cargo"
             />
-            </div>
-            <div className="form-group">
-
-<label htmlFor="">Credencial</label>
-
+          </div>
+          <div className="form-group">
+            <label htmlFor="">Credencial</label>
             <input
               value={this.state.credential}
               name="credential"
@@ -442,10 +448,9 @@ updateEmployee(){
               placeholder="Credencial"
             />
           </div>
+
           <div className="form-group">
-
-<label htmlFor="">Data de entrada</label>
-
+            <label htmlFor="">Data de entrada</label>
             <input
               value={this.state.dt_ini}
               type="datetime-local"
@@ -453,11 +458,10 @@ updateEmployee(){
               onChange={(e) => this.handleInitDateChange(e.target.value)}
               placeholder="Data entrada"
             />
-            </div>
-            <div className="form-group">
+          </div>
 
-<label htmlFor="">Data Demissão</label>
-
+          <div className="form-group">
+            <label htmlFor="">Data Demissão</label>
             <input
               value={this.state.dt_end}
               type="datetime-local"
@@ -465,7 +469,8 @@ updateEmployee(){
               onChange={(e) => this.handleEndDateChange(e.target.value)}
               placeholder="Data Saída"
             />
-            </div>
+          </div>
+
           <button className="button" type="submit">
             Enviar
           </button>
@@ -475,4 +480,4 @@ updateEmployee(){
     );
   }
 }
-export default  Form;
+export default Form;

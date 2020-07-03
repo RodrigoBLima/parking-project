@@ -43,7 +43,16 @@
 }
 
 .list_employee ul li p {
-    color: #737380;
+    color: #2f2f31;
     line-height: 21px;
     font-size: 16px;
 }
+
+.content label  {
+    color: #808080;
+  }
+/* .content section h1{
+    margin: 60px 0 37px;
+    font-size: 32px;
+} */
+  
