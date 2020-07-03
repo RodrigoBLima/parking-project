@@ -30,15 +30,8 @@ class Form extends Component {
   }
 
   getParking(){
-
-  }
-
-  getCountries(){
-    
-  }
-
-  componentDidMount() {
     const { parking_id } = this.state;
+
     let ESTABLISHMENT_URL = `${myConfig.API_URL}/parkings/${parking_id}/`;
     axios({
       baseURL: ESTABLISHMENT_URL,
@@ -62,7 +55,9 @@ class Form extends Component {
       });
     });
 
-    // GET COUNTRIES
+  }
+
+  getCountries(){
     const PAIS_URL = `${myConfig.API_URL}/countries/`;
 
     axios({
@@ -77,6 +72,14 @@ class Form extends Component {
       console.log("***********");
       this.setState({ country_name: res.data });
     });
+  }
+
+  componentDidMount() {
+    // const { parking_id } = this.state;
+   this.getParking()
+
+    // GET COUNTRIES
+   this.getCountries()
   }
 
   getFormData() {
@@ -116,7 +119,7 @@ class Form extends Component {
         if (res.status === 200) {
           //   console.log(response.data);
           // this.setState({ submited_update: true });
-          localStorage.setItem("value_hour", res.data.value_hour);
+          localStorage.setItem("vagas", res.data.value_hour);
           localStorage.setItem("parking_name", res.data.name_establishment);
           toast("Atualizado com sucesso!");
         }
