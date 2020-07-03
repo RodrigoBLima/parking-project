@@ -4,22 +4,22 @@ import { FiArrowLeft } from "react-icons/fi";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import SelectBox from "../../components/SelectBox";
-import myConfig from '../../configs/config'
-import { getFormatedDate } from "../../helpers/utils";
+import myConfig from "../../configs/config";
+// import { getFormatedDate } from "../../helpers/utils";
 
 // SelectBox
 export default class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      proprietario: "",
-      placa: "",
-      modelo: "",
-      marca: "",
-      ano: "",
-      cor: "",
-      h_entrada: "",
-      h_saida: "",
+      owner: "",
+      board: "",
+      model: "",
+      brand: "",
+      year: "",
+      color: "",
+      h_enter: "",
+      h_exit: "",
       parking_id: this.props.match.params.parking_id,
       vehicule_id: this.props.match.params.vehicule_id,
       title: "Adicionar veículo",
@@ -29,41 +29,10 @@ export default class Form extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    let { vehicule_id, parking_id } = this.state;
-
-    if (vehicule_id !== undefined) {
-      let url = `${myConfig.API_URL}/cars/?id=${parseInt(
-        vehicule_id
-      )}&idEstacionamento=${parseInt(parking_id)}`;
-      axios({
-        baseURL: url,
-        method: "get",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
-        },
-      }).then((res) => {
-        console.log("***********");
-        console.log(res.data[0]);
-        console.log("***********");
-        let data = res.data[0];
-        this.setState({
-          title: "Atualizar veículo",
-          proprietario: data.proprietario,
-          placa: data.placa,
-          modelo: data.modelo,
-          marca: data.marca,
-          ano: data.ano,
-          cor: data.cor,
-          h_entrada: data.h_entrada,
-          h_saida: data.h_saida,
-        });
-      });
-    }
-    //LOADING EMPLOYEES
-    const URL_EMPLOYEES = `${myConfig.API_URL}/employees/?id=&idEstacionamento=${parseInt(
-      this.state.parking_id
-    )}`;
+  getEmployees() {
+    const URL_EMPLOYEES = `${
+      myConfig.API_URL
+    }/employees/?id=&idEstacionamento=${parseInt(this.state.parking_id)}`;
 
     axios({
       baseURL: URL_EMPLOYEES,
@@ -77,6 +46,55 @@ export default class Form extends Component {
       console.log("***********");
       this.setState({ employees: res.data });
     });
+  }
+
+  getVehicule() {
+    let { vehicule_id, parking_id } = this.state;
+
+    let url = `${myConfig.API_URL}/cars/?id=${parseInt(
+      vehicule_id
+    )}&idEstacionamento=${parseInt(parking_id)}`;
+
+    axios({
+      baseURL: url,
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
+      },
+    }).then((res) => {
+      console.log("***********");
+      console.log(res.data[0]);
+      console.log("***********");
+      let data = res.data[0];
+      this.setState({
+        title: "Atualizar veículo",
+        owner: data.owner,
+        board: data.board,
+        model: data.model,
+        brand: data.brand,
+        year: data.year,
+        color: data.color,
+        h_enter: data.h_enter,
+        h_exit: data.h_exit,
+      });
+    });
+  }
+
+  createVehicule(){
+
+  }
+  editVehicule(){
+
+  }
+  
+  componentDidMount() {
+    let { vehicule_id } = this.state;
+
+    if (vehicule_id !== undefined) {
+      this.getVehicule();
+    }
+    //LOADING EMPLOYEES
+    this.getEmployees();
   }
 
   handleChangeText(e) {
@@ -101,32 +119,29 @@ export default class Form extends Component {
     // seconds = ("0" + data.getSeconds()).slice(-2).toString();
 
     // console.log( anoF + "-" + mesF + "-" + diaF + "T" + hour + ":" + minutes + ":" + seconds) // 2020-02-05T12:54:00
-    console.log(getFormatedDate(e))
-    this.setState({
-      h_entrada:e
-    })
-    
-    
-  }
-  handleEndDateChange(e) {
-    console.log("end", e)
     // console.log(getFormatedDate(e))
     this.setState({
-      h_saida: e
-    })
-
+      h_enter: e,
+    });
+  }
+  handleEndDateChange(e) {
+    console.log("end", e);
+    // console.log(getFormatedDate(e))
+    this.setState({
+      h_exit: e,
+    });
   }
   getFormData() {
     const form_data = new FormData();
 
-    form_data.append("proprietario", this.state.proprietario);
-    form_data.append("placa", this.state.placa);
-    form_data.append("modelo", this.state.modelo);
-    form_data.append("marca", this.state.marca);
-    form_data.append("ano", this.state.ano);
-    form_data.append("cor", this.state.cor);
-    form_data.append("h_entrada", this.state.h_entrada);
-    form_data.append("h_saida",this.state.h_saida);
+    form_data.append("owner", this.state.owner);
+    form_data.append("board", this.state.board);
+    form_data.append("model", this.state.model);
+    form_data.append("brand", this.state.brand);
+    form_data.append("year", this.state.year);
+    form_data.append("color", this.state.color);
+    form_data.append("h_enter", this.state.h_enter);
+    form_data.append("h_exit", this.state.h_exit);
     form_data.append("idEstacionamento", this.state.parking_id);
 
     form_data.append("idFuncionario", this.state.employe_id);
@@ -142,7 +157,9 @@ export default class Form extends Component {
 
     if (vehicule_id !== undefined) {
       //put
-      let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/${parseInt(vehicule_id)}/`;
+      let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/${parseInt(
+        vehicule_id
+      )}/`;
 
       axios({
         baseURL: UPDATE_VEHICULE,
@@ -180,7 +197,9 @@ export default class Form extends Component {
         });
     } else {
       //post
-      let CREATE_VEHICULE = `${myConfig.API_URL }/cars/?id=&idEstacionamento=${parseInt(parking_id)}`;
+      let CREATE_VEHICULE = `${
+        myConfig.API_URL
+      }/cars/?id=&idEstacionamento=${parseInt(parking_id)}`;
       axios({
         baseURL: CREATE_VEHICULE,
         method: "post",
@@ -264,82 +283,110 @@ export default class Form extends Component {
           </Link>
         </section>
         <form onSubmit={this.handleSubmit}>
-          <input
-            value={this.state.proprietario}
-            name="proprietario"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="Nome proprietário"
-          />
+          <div className="form-group">
+            <label htmlFor="">Nome do proprietário</label>
 
-          <input
-            value={this.state.placa}
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="Placa"
-            // type="email"
-            name="placa"
-          />
-          <input
-            value={this.state.cor}
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="Cor"
-            // type="text"
-            name="cor"
-          />
-          <input
-            value={this.state.marca}
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="Marca"
-            name="marca"
-          />
-
-          <div className="input-group">
             <input
-              value={this.state.ano}
+              value={this.state.owner}
+              name="owner"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="Nome proprietário"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Placa do veículo</label>
+
+            <input
+              value={this.state.board}
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="Placa"
+              // type="email"
+              name="board"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="">Coloração</label>
+
+            <input
+              value={this.state.color}
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="Cor"
+              // type="text"
+              name="color"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="">Marca do veículo</label>
+
+            <input
+              value={this.state.brand}
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="Marca"
+              name="brand"
+            />
+          </div>
+          {/* <div className="input-group"> */}
+          <div className="form-group">
+            <label htmlFor="">Ano de fabricação</label>
+
+            <input
+              value={this.state.year}
               onChange={(e) => this.handleChangeText(e)}
               placeholder="Ano"
-              name="ano"
+              name="year"
             />
+          </div>
+          <div className="form-group">
+            <label htmlFor="">Modelo do veículo</label>
+
             <input
-              value={this.state.modelo}
+              value={this.state.model}
               onChange={(e) => this.handleChangeText(e)}
               placeholder="Modelo"
-              name="modelo"
+              name="model"
             />
-            <div className="input-group">
-              {/* <input
-                value={this.state.h_entrada}
+          </div>
+          {/* <div className="input-group"> */}
+          {/* <input
+                value={this.state.h_enter}
                 type="datetime"
                onChange={(e) => this.handleInitDateChange(e.target.value)}
                 placeholder="Hora entrada"
-                name="h_entrada"
+                name="h_enter"
               /> */}
-              <input 
-              type="datetime-local" 
-              onChange={(e) => this.handleInitDateChange(e.target.value)}
-              name="h_entrada" 
-        value={this.state.h_entrada}
-        placeholder="Hora entrada"
+          <div className="form-group">
+            <label htmlFor="">Hora de entrada</label>
 
-       />
-            </div>
-            <div className="input-group">
-              {/* <input
-                value={this.state.h_saida}
+            <input
+              type="datetime-local"
+              onChange={(e) => this.handleInitDateChange(e.target.value)}
+              name="h_enter"
+              value={this.state.h_enter}
+              placeholder="Hora entrada"
+            />
+          </div>
+          {/* <div className="input-group"> */}
+          {/* <input
+                value={this.state.h_exit}
                 type="date"
                 onChange={(e) => this.handleEndDateChange(e.target.value)}
                 placeholder="Hora saida"
-                name="h_saida"
+                name="h_exit"
               /> */}
-                <input 
-              type="datetime-local" 
+          <div className="form-group">
+            <label htmlFor="">Hora de saída</label>
+            <input
+              type="datetime-local"
               onChange={(e) => this.handleEndDateChange(e.target.value)}
               placeholder="Hora saida"
-              name="h_saida"
+              name="h_exit"
               // placeholder="Hora saida"
-              value={this.state.h_saida}
-       />
-            </div>
+              value={this.state.h_exit}
+            />
+            {/* </div> */}
           </div>
+
           {employees}
 
           <button className="button" type="submit">

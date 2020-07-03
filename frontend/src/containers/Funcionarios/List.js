@@ -28,6 +28,10 @@ export default class List extends Component {
   }
 // ;
 
+getEmployees(){
+  
+}
+
   componentDidMount() {
     const URL = `${myConfig.API_URL}/employees/?id=&idEstacionamento=${this.state.parking_id}`;
 
@@ -103,10 +107,10 @@ export default class List extends Component {
             {this.state.employees.map((employee) => (
               <li key={employee.id}>
                 <strong>Nome: </strong>
-                <p>{employee.nome} </p>
+                <p>{employee.name} </p>
 
                 <strong>Cargo: </strong>
-                <p>{employee.cargo}</p>
+                <p>{employee.office}</p>
 
                 <strong>Credencial: </strong>
                 <p>{employee.credential}</p>

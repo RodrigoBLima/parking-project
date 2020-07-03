@@ -22,11 +22,19 @@ class Form extends Component {
       country: "",
       location: "",
       cnpj: "",
-      vagas: "",
+      vacancies: "",
       email: "",
-      horas:"",
+      value_hour:"",
     };
     this.handleSave = this.handleSave.bind(this);
+  }
+
+  getParking(){
+
+  }
+
+  getCountries(){
+    
   }
 
   componentDidMount() {
@@ -44,12 +52,12 @@ class Form extends Component {
       console.log("***********++++++++");
       this.setState({
         name_establishment: res.data.name_establishment,
-        horas: res.data.hora,
+        value_hour: res.data.value_hour,
         cep: res.data.cep,
-        country: res.data.pais,
+        country: res.data.country,
         location: res.data.location,
         cnpj: res.data.cnpj,
-        vagas: res.data.vagas,
+        vacancies: res.data.vacancies,
         email: res.data.username,
       });
     });
@@ -76,13 +84,13 @@ class Form extends Component {
 
     form_data.append("name_establishment", this.state.name_establishment);
     form_data.append("cep", this.state.cep);
-    form_data.append("pais", this.state.country);
+    form_data.append("country", this.state.country);
     form_data.append("cnpj", this.state.cnpj);
     form_data.append("location", this.state.location);
-    form_data.append("vagas", this.state.vagas);
+    form_data.append("vacancies", this.state.vacancies);
     form_data.append("email", this.state.email);
     form_data.append("username", this.state.email);
-    form_data.append("hora", this.state.horas);
+    form_data.append("value_hour", this.state.value_hour);
     // form_data.append("dt_ini", this.state.dt_ini);
     // form_data.append("dt_nasc", this.state.dt_nasc);
     // form_data.append("idEstacionamento", this.state.parking_id);
@@ -108,7 +116,7 @@ class Form extends Component {
         if (res.status === 200) {
           //   console.log(response.data);
           // this.setState({ submited_update: true });
-          localStorage.setItem("horas", res.data.horas);
+          localStorage.setItem("value_hour", res.data.value_hour);
           localStorage.setItem("parking_name", res.data.name_establishment);
           toast("Atualizado com sucesso!");
         }
@@ -178,7 +186,7 @@ class Form extends Component {
             selected_value={this.state.country}
             value={"name"}
             change={(e) => this.handleSelectCountry(e)}
-            // label="Paises"
+            label="Paises"
             id="select_countries"
           />
         </div>
@@ -186,7 +194,7 @@ class Form extends Component {
     } else {
       select_countries = (
         <div className="form-group">
-          {/* <label htmlFor="">Países</label> */}
+          <label htmlFor="">Países</label>
           <select className="form-control">
             <option value="">-------------</option>
           </select>
@@ -197,6 +205,11 @@ class Form extends Component {
     return (
       <div className="content">
         <form onSubmit={this.handleSave}>
+
+        <div className="form-group">
+
+        <label htmlFor="">Nome do estabelecimento</label>
+
           <input
             value={this.state.name_establishment}
             name="name_establishment"
@@ -204,6 +217,10 @@ class Form extends Component {
             placeholder="Nome do estabelecimento"
             // type="email"
           />
+  </div>
+  <div className="form-group">
+
+<label htmlFor="">Email do estabelecimento</label>
 
           <input
             value={this.state.email}
@@ -212,14 +229,19 @@ class Form extends Component {
             placeholder="E-mail"
             // type="email"
           />
+</div>
+<div className="form-group">
+
+<label htmlFor="">Quantidade de vagas</label>
 
           <input
-            value={this.state.vagas}
-            name="vagas"
+            value={this.state.vacancies}
+            name="vacancies"
             onChange={(e) => this.handleChangeText(e)}
             placeholder="Quantidade de vagas"
             type="number"
           />
+          </div>
           {select_countries}
 
           <PlacesAutocomplete
@@ -229,7 +251,7 @@ class Form extends Component {
           >
             {({ getInputProps, suggestions, getSuggestionItemProps }) => (
               <div className="form-group">
-                {/* <label htmlFor="search_place">Localidade</label> */}
+                <label htmlFor="search_place">Localidade</label>
                 <input
                   {...getInputProps({
                     placeholder: "Procurar localidade.",
@@ -260,6 +282,9 @@ class Form extends Component {
               </div>
             )}
           </PlacesAutocomplete>
+          <div className="form-group">
+
+<label htmlFor="">CEP do estabelecimento</label>
 
           <input
             value={this.state.cep}
@@ -268,6 +293,11 @@ class Form extends Component {
             placeholder="CEP"
             // type="email"
           />
+          </div>
+          <div className="form-group">
+
+<label htmlFor="">CNPJ do estabelecimento</label>
+
           <input
             value={this.state.cnpj}
             name="cnpj"
@@ -275,12 +305,19 @@ class Form extends Component {
             placeholder="CNPJ da empresa"
             // type="email"
           />
+          </div>
+          <div className="form-group">
+
+<label htmlFor="">Valor cobrado por hora</label>
+
             <input
-              value={this.state.horas}
-              name="horas"
+              value={this.state.value_hour}
+              name="value_hour"
               onChange={(e) => this.handleChangeText(e)}
               placeholder="Valor por hora"
             />
+            </div>
+
           <button className="button" type="submit">
             Atualizar
           </button>

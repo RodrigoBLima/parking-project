@@ -15,12 +15,51 @@ export default function Register() {
     const [password, setPassword] = useState('')
     const [c_password, setCPassword] = useState('')
     const [name_establishment, setEst] = useState('')
-    // const [uf, setUf] = useState('')
+    // const [validPass, setValidPass] = useState('')
+    // const [validEmail, setValidEmail] = useState('')
+
 
     const history = useHistory()
 
-    async function handleRegister(e) {
+    // function ValidateInputs(){
+    //     console.log('ValidateInputs')
+    //     if(password !== c_password){
+    //         setValidPass('caralho')
+    //         console.log('validPass',validPass)
+    //         toast('Senhas não coincidem')
+    //         setTimeout(() => {
+    //             console.log("no set time")
+    //             // this.setState({
+    //             //     submited_update: false,
+    //             setValidPass(false)
+
+    //             // });
+    //         }, 10000);
+    //     }
+    //   }
+    
+    // function  validateEmail(email) {
+    //     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //     // alert(re.test(String(email).toLowerCase()))
+    //     let resp = re.test(String(email).toLowerCase());
+    //     if (resp !== true) {
+    //         setValidEmail(true)
+    //         toast('Email inválido')
+    //         setTimeout(() => {
+    //             // this.setState({
+    //             //     submited_update: false,
+    //             setValidEmail(false)
+
+    //             // });
+    //         }, 10000);
+    //     }
+    // }
+
+     function handleRegister(e) {
         e.preventDefault()
+
+        // ValidateInputs()
+        // validateEmail(username)
 
         const data = {
             username,
@@ -29,25 +68,23 @@ export default function Register() {
             c_password,
             email : username
         }
+        // console.log(validPass)
+        // console.log(validEmail)
+        // alert(validPass === false & validEmail === false)
+        // if(validPass === false & validEmail === false){
         try {
             let url = myConfig.API_URL + "/parkings/"
             axios({
                 baseURL: url,
                 method: "post",
                 data:data
-                // headers: {
-                //   Authorization: `Bearer ${token}`,
-                // },
               }).then((res) => {
                   console.log(res.data)
+                  if (res.status === 201) {
+                     toast(`Cadastro realizado com sucesso !`) 
+                  }
               })
-            // const res = await api.post('parkings', data)
-            // console.log('**********************')
-            // console.log(res.data)
 
-            // console.log('**********************')
-
-            toast(`Cadastro realizado com sucesso !`) 
              
             setTimeout(() => {
                 history.push('/login/')
@@ -57,6 +94,10 @@ export default function Register() {
             toast('Erro no cadastro, tente novamente.')
         }
     }
+    // else{
+    //     console.log('eelse')
+    // }
+    // }
 
 
     return (
@@ -108,7 +149,7 @@ export default function Register() {
                         type="password"
                     />
 
-                    <button className="button" type="submit">Cadastrar</button>
+                    <button className="button"  type="submit"  >Cadastrar</button>
                 </form>
             </div>
             <ToastContainer />

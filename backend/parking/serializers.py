@@ -3,13 +3,14 @@ from .models import User
 
 
 class EstablishmentSerializer(serializers.ModelSerializer):
-    nome_pais = serializers.SerializerMethodField()
+    name_country = serializers.SerializerMethodField()
 
-    def get_nome_pais(self, obj):
-        return obj.pais.name
+    def get_name_country(self, obj):
+        return obj.country.name
 
     class Meta:
         model = User
         fields = ('name_establishment', 'cep', 'location',
-                  'vagas', 'pais', 'cnpj', 'email', 'nome_pais','username','id','hora')
-        extra_kwargs = {'password': {'write_only': True}}
+                  'vacancies', 'country', 'cnpj', 'email', 'name_country', 'username', 'id',
+                  'value_hour', 'password')
+        # extra_kwargs = {'password': {'write_only': True}}

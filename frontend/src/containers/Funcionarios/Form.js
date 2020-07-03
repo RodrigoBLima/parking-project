@@ -20,13 +20,13 @@ class Form extends Component {
     this.state = {
     nome: "",
     credential: "",
-    telefone: "",
+    cellphone: "",
     cpf: "",
     rg: "",
     country: 32,
     country_name: [],
     location: "",
-    cargo: "",
+    office: "",
     dt_nasc: "",
     dt_ini: "",
     dt_end: "",
@@ -40,6 +40,19 @@ class Form extends Component {
     title: "Cadastrar funcionário",
   }
   this.handleSave = this.handleSave.bind(this);
+}
+getEmployee(){
+
+}
+
+getCountries(){
+
+}
+createEmployee(){
+
+}
+updateEmployee(){
+
 }
 
   componentDidMount() {
@@ -70,15 +83,15 @@ class Form extends Component {
 
         this.setState({
           title: "Atualizar dados",
-          nome: data.nome,
+          name: data.name,
           credential: data.credential,
-          telefone: data.telefone,
+          cellphone: data.cellphone,
           cpf: data.cpf,
           rg: data.rg,
-          country:data.pais ,
+          country:data.country ,
           // horas: data.horas,
-          location: data.localidade,
-          cargo: data.cargo,
+          location: data.location,
+          office: data.office,
           dt_nasc: data.nasc,
           dt_ini: data.dt_ini,
           dt_end: data.dt_end,
@@ -145,23 +158,28 @@ class Form extends Component {
   };
   handleInitDateChange(e) {
     console.log("init", e);
+    this.setState({
+      dt_ini:e
+    })
   }
   handleEndDateChange(e) {
     console.log("end", e);
+    this.setState({dt_end:e})
   }
   handleEndDateNasc(e) {
     console.log("end", e);
+    this.setState({dt_nasc:e})
   }
   getFormData() {
     const form_data = new FormData();
 
     form_data.append("nome", this.state.nome);
-    form_data.append("cargo", this.state.cargo);
+    form_data.append("office", this.state.office);
     form_data.append("country", this.state.country);
     form_data.append("credential", this.state.credential);
-    form_data.append("localidade", this.state.location);
+    form_data.append("location", this.state.location);
     form_data.append("rg", this.state.rg);
-    form_data.append("telefone", this.state.telefone);
+    form_data.append("cellphone", this.state.cellphone);
     form_data.append("cpf", this.state.cpf);
     form_data.append("dt_end", this.state.dt_end);
     form_data.append("dt_ini", this.state.dt_ini);
@@ -181,7 +199,7 @@ class Form extends Component {
     console.log(employee_id !== undefined)
     if (employee_id !== undefined){
       //put
-      console.log('TA NA PORRA DO PUT SIM')
+      // console.log('TA NA PORRA DO PUT SIM')
       let UPDATE_EMPLOYEE = `${myConfig.API_URL}/employees/${employee_id}/`;
       // `${myConfig.API_URL}/employees/?id=${id}&idEstacionamento=${this.state.parking_id}`
       axios({
@@ -275,7 +293,7 @@ class Form extends Component {
             selected_value={this.state.country}
             value={"name"}
             change={(e) => this.handleSelectCountry(e)}
-            // label="Paises"
+            label="Paises"
             id="select_countries"
           />
         </div>
@@ -283,7 +301,7 @@ class Form extends Component {
     } else {
       select_countries = (
         <div className="form-group">
-          {/* <label htmlFor="">Países</label> */}
+          <label htmlFor="">Países</label>
           <select className="form-control">
             <option value="">-------------</option>
           </select>
@@ -302,12 +320,21 @@ class Form extends Component {
           </Link>
         </section>
         <form onSubmit={this.handleSave}>
+        <div className="form-group">
+
+<label htmlFor="">Nome do funcionário</label>
+
           <input
             value={this.state.nome}
             name="nome"
             onChange={(e) => this.handleChangeText(e)}
             placeholder="Nome"
           />
+          </div>
+          <div className="form-group">
+
+<label htmlFor="">CPF do funcionário</label>
+
 
           <input
             value={this.state.cpf}
@@ -316,6 +343,11 @@ class Form extends Component {
             placeholder="CPF"
             // type="email"
           />
+          </div>
+          <div className="form-group">
+
+<label htmlFor="">RG do funcionário</label>
+
           <input
             value={this.state.rg}
             name="rg"
@@ -323,7 +355,7 @@ class Form extends Component {
             placeholder="RG"
             type="text"
           />
-
+</div>
           {select_countries}
 
           <PlacesAutocomplete
@@ -333,7 +365,7 @@ class Form extends Component {
           >
             {({ getInputProps, suggestions, getSuggestionItemProps }) => (
               <div className="form-group">
-                {/* <label htmlFor="search_place">Localidade</label> */}
+                <label htmlFor="search_place">Localidade</label>
                 <input
                   {...getInputProps({
                     placeholder: "Procurar localidade.",
@@ -364,42 +396,45 @@ class Form extends Component {
               </div>
             )}
           </PlacesAutocomplete>
+          <div className="form-group">
+
+<label htmlFor="">Telefone do funcionário</label>
 
           <input
-            value={this.state.telefone}
-            name="telefone"
+            value={this.state.cellphone}
+            name="cellphone"
             onChange={(e) => this.handleChangeText(e)}
             placeholder="Telefone"
           />
+</div>
+<div className="form-group">
+<label htmlFor="">Data de nascimento</label>
 
-          <div className="input-group">
+          {/* <div className="input-group"> */}
             <input
               value={this.state.dt_nasc}
               name="dt_nasc"
-              onChange={(e) => this.handleEndDateNasc(e)}
-              type="date"
+              onChange={(e) => this.handleEndDateNasc(e.target.value)}
+              type="datetime-local"
               placeholder="Data Nascimento"
             />
+            </div>
+          
+            <div className="form-group">
+
+<label htmlFor="">cargo</label>
+
             <input
-              value={this.state.dt_ini}
-              type="date"
-              name="dt_ini"
-              onChange={(e) => this.handleInitDateChange(e)}
-              placeholder="Data entrada"
-            />
-            <input
-              value={this.state.dt_end}
-              type="date"
-              name="dt_end"
-              onChange={(e) => this.handleEndDateChange(e)}
-              placeholder="Data Saída"
-            />
-            <input
-              value={this.state.cargo}
-              name="cargo"
+              value={this.state.office}
+              name="office"
               onChange={(e) => this.handleChangeText(e)}
               placeholder="Cargo"
             />
+            </div>
+            <div className="form-group">
+
+<label htmlFor="">Credencial</label>
+
             <input
               value={this.state.credential}
               name="credential"
@@ -407,7 +442,30 @@ class Form extends Component {
               placeholder="Credencial"
             />
           </div>
+          <div className="form-group">
 
+<label htmlFor="">Data de entrada</label>
+
+            <input
+              value={this.state.dt_ini}
+              type="datetime-local"
+              name="dt_ini"
+              onChange={(e) => this.handleInitDateChange(e.target.value)}
+              placeholder="Data entrada"
+            />
+            </div>
+            <div className="form-group">
+
+<label htmlFor="">Data Demissão</label>
+
+            <input
+              value={this.state.dt_end}
+              type="datetime-local"
+              name="dt_end"
+              onChange={(e) => this.handleEndDateChange(e.target.value)}
+              placeholder="Data Saída"
+            />
+            </div>
           <button className="button" type="submit">
             Enviar
           </button>

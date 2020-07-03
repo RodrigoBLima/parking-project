@@ -28,6 +28,7 @@ const Login = () => {
   //   });
   // }
 
+
   function formData() {
     const form_data = new FormData();
 
@@ -36,11 +37,11 @@ const Login = () => {
 
     form_data.append("grant_type", "password");
     // yHW8LOEX3J9G8qH3cNXCf30MWY1BlYtW3dJoTV3g
-    form_data.append("client_id", "htZ0ScSVn5TxKhd644gmPT4XtmylavVGXncGnwlJ");
+    form_data.append("client_id", "api");
 
     form_data.append(
       "client_secret",
-      "ZWFemwKs3IbLOkzq66colu1AQH0icnifigItzcFqitbALXjpcS2cyPA9ROeix82MW3Tyt4hTieJfNVbS10bFAPsMXSE3lFXNOL1UYCIsyqBY5mCE5rYk2Vwxnw7qE7RL"
+      "I6mNDQsXPKoAqmxNUjpR6cMgeZBQx0CaNSEDrjIf9ZOIHnhnsr7QpjRC5PUeC3JGWR8XljDitd8A6BnCOtXPMuhx0AxYp0qUxYlDOksVvqsq1AYiLBQIHQaJ4twmCl7g"
     );
 
     return form_data;
@@ -66,8 +67,8 @@ const Login = () => {
         const client = res.data;
         const parking = res.data.id;
         const parking_name = res.data.name_establishment;
-        const vagas = res.data.vagas;
-        const horas = res.data.hora
+        const vagas = res.data.vacancies;
+        const horas = res.data.value_hour
 
 
         localStorage.setItem("parking_id", JSON.stringify(parking));
@@ -136,6 +137,7 @@ const Login = () => {
             name="email"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
+            type="email"
           />
           <input
             value={password}

@@ -84,8 +84,10 @@ class List extends Component {
     let quinze_minutos = meia_hora / 2 
     console.log(meia_hora, quinze_minutos)
 
-    console.log(he)
-    console.log(hs)
+    let h_enter = new Date(he)
+    console.log("entrada ",h_enter)
+    let h_exit = new Date(hs)
+    console.log("saída ",h_exit)
     // console.log(typeof(hs))
   }
   createPdf = (html) => Doc.createPdf(html);
@@ -112,19 +114,19 @@ class List extends Component {
             {this.state.vehicules.map((vehicule) => (
               <li key={vehicule.id}>
                 <strong>Proprietátio: </strong>
-                <p>{vehicule.proprietario} </p>
+                <p>{vehicule.owner} </p>
 
                 <strong>Placa: </strong>
-                <p>{vehicule.placa}</p>
+                <p>{vehicule.board}</p>
 
                 <strong>Entrada: </strong>
-                <p>{getFormatedDate(vehicule.h_entrada)}</p>
+                <p>{getFormatedDate(vehicule.h_enter)}</p>
 
                 <strong>Saida: </strong>
-                <p>{getFormatedDate(vehicule.h_saida)}</p>
+                <p>{getFormatedDate(vehicule.h_exit)}</p>
 
                 <strong>Valor a ser cobrado: </strong>
-                <p>{this.calculateValue(vehicule.h_entrada,vehicule.h_saida )}</p>
+                <p>{this.calculateValue(vehicule.h_enter,vehicule.h_exit )}</p>
 
                 <button type="button" style={{ marginRight: 30 }}>
                   <Link
