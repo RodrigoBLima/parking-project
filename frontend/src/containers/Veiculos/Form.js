@@ -24,7 +24,7 @@ export default class Form extends Component {
       vehicule_id: this.props.match.params.vehicule_id,
       title: "Adicionar veículo",
       employees: [],
-      employe_id: 1,
+      employe_id: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -76,14 +76,94 @@ export default class Form extends Component {
         color: data.color,
         h_enter: data.h_enter,
         h_exit: data.h_exit,
+        employe_id: data.idFuncionario
       });
     });
   }
 
   createVehicule(){
+    let { parking_id } = this.state;
 
+    let CREATE_VEHICULE = `${
+      myConfig.API_URL
+    }/cars/?id=&idEstacionamento=${parseInt(parking_id)}`;
+    axios({
+      baseURL: CREATE_VEHICULE,
+      method: "post",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
+      },
+      data: this.getFormData(),
+    })
+      .then((res) => {
+        console.log("-----------");
+        console.log(res.data);
+        console.log("-----------");
+        if (res.status === 201) {
+          //   console.log(response.data);
+          // this.setState({ submited_update: true });
+          toast("Cadastrado com sucesso!");
+        }
+        setTimeout(() => {
+          // this.setState({
+          //     submited_update: false,
+          // });
+        }, 3000);
+        window.location.href = "/" + this.state.parking_id + "/vehicules/";
+      })
+      .catch((error) => {
+        // window.error = error.response.data;
+        // console.log(error.response.data)
+        // let error_msg = '';
+        // Object.keys(error.response.data).forEach(function(e){
+        //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
+        // });
+        // this.setState({ error: error_msg});
+        toast("Erro ao cadastrar.");
+      });
   }
+
   editVehicule(){
+    let { vehicule_id, parking_id } = this.state;
+
+    let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/${parseInt(
+      vehicule_id
+    )}/`;
+
+    axios({
+      baseURL: UPDATE_VEHICULE,
+      method: "put",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
+      },
+      data: this.getFormData(),
+    })
+      .then((res) => {
+        console.log("-----------");
+        console.log(res.data);
+        console.log("-----------");
+        if (res.status === 200) {
+          //   console.log(response.data);
+          // this.setState({ submited_update: true });
+          toast("Atualizado com sucesso!");
+        }
+        setTimeout(() => {
+          // this.setState({
+          //     submited_update: false,
+          // });
+        }, 3000);
+        window.location.href = "/" + this.state.parking_id + "/vehicules/";
+      })
+      .catch((error) => {
+        // window.error = error.response.data;
+        // console.log(error.response.data)
+        // let error_msg = '';
+        // Object.keys(error.response.data).forEach(function(e){
+        //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
+        // });
+        // this.setState({ error: error_msg});
+        toast("Erro ao atualizar.");
+      });
 
   }
   
@@ -102,6 +182,7 @@ export default class Form extends Component {
       [e.target.name]: e.target.value,
     });
   }
+
   handleInitDateChange(e) {
     console.log("init", e);
     // console.log(getFormatedDate(e))
@@ -124,6 +205,7 @@ export default class Form extends Component {
       h_enter: e,
     });
   }
+
   handleEndDateChange(e) {
     console.log("end", e);
     // console.log(getFormatedDate(e))
@@ -131,6 +213,7 @@ export default class Form extends Component {
       h_exit: e,
     });
   }
+
   getFormData() {
     const form_data = new FormData();
 
@@ -156,86 +239,17 @@ export default class Form extends Component {
     let { vehicule_id, parking_id } = this.state;
 
     if (vehicule_id !== undefined) {
-      //put
-      let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/${parseInt(
-        vehicule_id
-      )}/`;
 
-      axios({
-        baseURL: UPDATE_VEHICULE,
-        method: "put",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
-        },
-        data: this.getFormData(),
-      })
-        .then((res) => {
-          console.log("-----------");
-          console.log(res.data);
-          console.log("-----------");
-          if (res.status === 200) {
-            //   console.log(response.data);
-            // this.setState({ submited_update: true });
-            toast("Atualizado com sucesso!");
-          }
-          setTimeout(() => {
-            // this.setState({
-            //     submited_update: false,
-            // });
-          }, 3000);
-          window.location.href = "/" + this.state.parking_id + "/vehicules/";
-        })
-        .catch((error) => {
-          // window.error = error.response.data;
-          // console.log(error.response.data)
-          // let error_msg = '';
-          // Object.keys(error.response.data).forEach(function(e){
-          //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
-          // });
-          // this.setState({ error: error_msg});
-          toast("Erro ao atualizar.");
-        });
+      //put
+      this.editVehicule()
+     
     } else {
       //post
-      let CREATE_VEHICULE = `${
-        myConfig.API_URL
-      }/cars/?id=&idEstacionamento=${parseInt(parking_id)}`;
-      axios({
-        baseURL: CREATE_VEHICULE,
-        method: "post",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
-        },
-        data: this.getFormData(),
-      })
-        .then((res) => {
-          console.log("-----------");
-          console.log(res.data);
-          console.log("-----------");
-          if (res.status === 201) {
-            //   console.log(response.data);
-            // this.setState({ submited_update: true });
-            toast("Cadastrado com sucesso!");
-          }
-          setTimeout(() => {
-            // this.setState({
-            //     submited_update: false,
-            // });
-          }, 3000);
-          window.location.href = "/" + this.state.parking_id + "/vehicules/";
-        })
-        .catch((error) => {
-          // window.error = error.response.data;
-          // console.log(error.response.data)
-          // let error_msg = '';
-          // Object.keys(error.response.data).forEach(function(e){
-          //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
-          // });
-          // this.setState({ error: error_msg});
-          toast("Erro ao cadastrar.");
-        });
+      this.createVehicule()
+      
     }
   }
+
   handleSelectEmployee(e) {
     e.preventDefault();
     // console.log(e.target.value);
@@ -255,9 +269,9 @@ export default class Form extends Component {
             strong="true"
             data={this.state.employees}
             selected_value={this.state.employe_id}
-            value={"nome"}
+            value={"name"}
             change={(e) => this.handleSelectEmployee(e)}
-            // label="Paises"
+            label="Funcionários"
             id="select_countries"
           />
         </div>
@@ -265,7 +279,7 @@ export default class Form extends Component {
     } else {
       employees = (
         <div className="form-group">
-          {/* <label htmlFor="">Países</label> */}
+          <label htmlFor="">Funcionários</label>
           <select className="form-control">
             <option value="">-------------</option>
           </select>
@@ -275,14 +289,15 @@ export default class Form extends Component {
 
     return (
       <div className="content">
-        <section className="">
+        <section>
           <h1 style={{ color: "#007bff" }}>{this.state.title}</h1>
           <Link to="/" className="back-link">
             <FiArrowLeft size={16} color="007bff" />
             Voltar
           </Link>
         </section>
-        <form onSubmit={this.handleSubmit}>
+
+        <form onSubmit={this.handleSubmit} style={{marginLeft:"40px",marginTop:"150px"}}>
           <div className="form-group">
             <label htmlFor="">Nome do proprietário</label>
 

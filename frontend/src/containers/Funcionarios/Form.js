@@ -144,7 +144,7 @@ class Form extends Component {
     // `${myConfig.API_URL}/employees/?id=${id}&idEstacionamento=${this.state.parking_id}`
     axios({
       baseURL: UPDATE_EMPLOYEE,
-      method: "PUT",
+      method: "PUT",  
       headers: {
         Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
       },
