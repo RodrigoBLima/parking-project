@@ -13,7 +13,7 @@ class Empregados(models.Model):
     office = models.CharField(max_length=80, verbose_name="Cargo", default="")
     dt_nasc =models.DateTimeField(auto_now=False, auto_now_add=False, verbose_name="Data Nascimento")
     dt_ini = models.DateTimeField(auto_now=False, auto_now_add=False, default=datetime.now, verbose_name="Data entrada")
-    dt_end = models.DateTimeField(auto_now=False, auto_now_add=False, verbose_name="Data Saida")
+    dt_end = models.DateTimeField(auto_now=False, auto_now_add=False, default=datetime.now, verbose_name="Data Saida")
 
     idEstacionamento   = models.ForeignKey(
         'parking.User',
