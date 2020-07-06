@@ -4,41 +4,20 @@ import { FiLogIn } from "react-icons/fi";
 import axios from "axios";
 import "./index.css";
 import LoginImg from "../../assets/img5.png";
-// import heroesImg from '../../assets/heroes.png';
 import myConfig from "../../configs/config";
 import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // constructor(
-
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     email: "",
-  //     password: "",
-  //   };
-  //   // this.getFormData = this.getFormData.bind(this);
-  // }
-
-  // handleChangeText(e) {
-  //   this.setState({
-  //     [e.target.name]: e.target.value,
-  //   });
-  // }
-
 
   function formData() {
     const form_data = new FormData();
 
     form_data.append("username", email);
     form_data.append("password", password);
-
     form_data.append("grant_type", "password");
-    // yHW8LOEX3J9G8qH3cNXCf30MWY1BlYtW3dJoTV3g
     form_data.append("client_id", "api");
-
     form_data.append(
       "client_secret",
       "I6mNDQsXPKoAqmxNUjpR6cMgeZBQx0CaNSEDrjIf9ZOIHnhnsr7QpjRC5PUeC3JGWR8XljDitd8A6BnCOtXPMuhx0AxYp0qUxYlDOksVvqsq1AYiLBQIHQaJ4twmCl7g"
@@ -48,8 +27,6 @@ const Login = () => {
   }
 
   function getUser() {
-    // console.log();
-
     try {
       const url = `${myConfig.API_URL}/parkings/me/`;
       const token = localStorage.getItem("parking-token");
@@ -61,15 +38,14 @@ const Login = () => {
           Authorization: `Bearer ${token}`,
         },
       }).then((res) => {
-        console.log("**************");
-        console.log(res.data);
-        console.log("**************");
+        // console.log("**************");
+        // console.log(res.data);
+        // console.log("**************");
         const client = res.data;
         const parking = res.data.id;
         const parking_name = res.data.name_establishment;
         const vagas = res.data.vacancies;
-        const horas = res.data.value_hour
-
+        const horas = res.data.value_hour;
 
         localStorage.setItem("parking_id", JSON.stringify(parking));
         localStorage.setItem("parking_name", parking_name);
@@ -88,18 +64,7 @@ const Login = () => {
     e.preventDefault();
 
     const LOGIN_URL = `${myConfig.BE_URL}/o/token/`;
-    // const form_data = new FormData();
 
-    // form_data.append("username","vanderdigo837@outlook.com");
-    // form_data.append("password", "barbosa345");
-
-    // form_data.append("grant_type", "password");
-    // // yHW8LOEX3J9G8qH3cNXCf30MWY1BlYtW3dJoTV3g
-    // form_data.append("client_id", "htZ0ScSVn5TxKhd644gmPT4XtmylavVGXncGnwlJ");
-
-    // form_data.append("client_secret","ZWFemwKs3IbLOkzq66colu1AQH0icnifigItzcFqitbALXjpcS2cyPA9ROeix82MW3Tyt4hTieJfNVbS10bFAPsMXSE3lFXNOL1UYCIsyqBY5mCE5rYk2Vwxnw7qE7RL");
-
-    // return form_data;
     axios({
       baseURL: LOGIN_URL,
       method: "POST",
@@ -109,26 +74,21 @@ const Login = () => {
         if (response.status === 200) {
           console.log(response.data);
           localStorage.setItem("parking-token", response.data.access_token);
-          //
+
           getUser();
           toast("Login realizado com sucesso.");
         }
       })
       .catch((error) => {
-        // setError(`Error: ${error.response.data['error_description']}`)
-        console.log("ERROR", error);
+        // console.log("ERROR", error);
         toast("Email ou senha inválidos.");
       });
-    setTimeout(() => {
-      // setError(null)
-    }, 3500);
+    setTimeout(() => {}, 3500);
   }
 
-  // render() {
   return (
     <div className="login_content">
       <section className="form">
-        {/* <img src={LoginImg} alt="" /> */}
         <form onSubmit={handleSave}>
           <h1>Faça o seu Login</h1>
 
@@ -161,5 +121,5 @@ const Login = () => {
     </div>
   );
 };
-// }
+
 export default Login;

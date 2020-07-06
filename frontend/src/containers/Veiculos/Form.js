@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 import SelectBox from "../../components/SelectBox";
 import myConfig from "../../configs/config";
-// import { getFormatedDate } from "../../helpers/utils";
 
-// SelectBox
 export default class Form extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +22,7 @@ export default class Form extends Component {
       vehicule_id: this.props.match.params.vehicule_id,
       title: "Adicionar veículo",
       employees: [],
-      employe_id: '',
+      employe_id: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -62,10 +60,11 @@ export default class Form extends Component {
         Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
       },
     }).then((res) => {
-      console.log("***********");
-      console.log(res.data[0]);
-      console.log("***********");
+      // console.log("***********");
+      // console.log(res.data[0]);
+      // console.log("***********");
       let data = res.data[0];
+
       this.setState({
         title: "Atualizar veículo",
         owner: data.owner,
@@ -74,14 +73,14 @@ export default class Form extends Component {
         brand: data.brand,
         year: data.year,
         color: data.color,
-        h_enter: data.h_enter,
-        h_exit: data.h_exit,
-        employe_id: data.idFuncionario
+        h_enter: data.h_enter.replace(":00Z", ""),
+        h_exit: data.h_exit.replace(":00Z", ""),
+        employe_id: data.idFuncionario,
       });
     });
   }
 
-  createVehicule(){
+  createVehicule() {
     let { parking_id } = this.state;
 
     let CREATE_VEHICULE = `${
@@ -96,39 +95,27 @@ export default class Form extends Component {
       data: this.getFormData(),
     })
       .then((res) => {
-        console.log("-----------");
-        console.log(res.data);
-        console.log("-----------");
+        // console.log("-----------");
+        // console.log(res.data);
+        // console.log("-----------");
         if (res.status === 201) {
-          //   console.log(response.data);
-          // this.setState({ submited_update: true });
           toast("Cadastrado com sucesso!");
         }
         setTimeout(() => {
-          // this.setState({
-          //     submited_update: false,
-          // });
+          // console.log('CREATING ...')
         }, 3000);
         window.location.href = "/" + this.state.parking_id + "/vehicules/";
       })
       .catch((error) => {
-        // window.error = error.response.data;
-        // console.log(error.response.data)
-        // let error_msg = '';
-        // Object.keys(error.response.data).forEach(function(e){
-        //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
-        // });
-        // this.setState({ error: error_msg});
+        console.log("ERROR", error);
         toast("Erro ao cadastrar.");
       });
   }
 
-  editVehicule(){
-    let { vehicule_id, parking_id } = this.state;
+  editVehicule() {
+    let { vehicule_id } = this.state;
 
-    let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/${parseInt(
-      vehicule_id
-    )}/`;
+    let UPDATE_VEHICULE = `${myConfig.API_URL}/cars/${parseInt(vehicule_id)}/`;
 
     axios({
       baseURL: UPDATE_VEHICULE,
@@ -139,34 +126,23 @@ export default class Form extends Component {
       data: this.getFormData(),
     })
       .then((res) => {
-        console.log("-----------");
-        console.log(res.data);
-        console.log("-----------");
+        // console.log("-----------");
+        // console.log(res.data);
+        // console.log("-----------");
         if (res.status === 200) {
-          //   console.log(response.data);
-          // this.setState({ submited_update: true });
           toast("Atualizado com sucesso!");
         }
         setTimeout(() => {
-          // this.setState({
-          //     submited_update: false,
-          // });
+          // console.log('UPDATING ...')
         }, 3000);
         window.location.href = "/" + this.state.parking_id + "/vehicules/";
       })
       .catch((error) => {
-        // window.error = error.response.data;
-        // console.log(error.response.data)
-        // let error_msg = '';
-        // Object.keys(error.response.data).forEach(function(e){
-        //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
-        // });
-        // this.setState({ error: error_msg});
+        console.log("ERROR", error);
         toast("Erro ao atualizar.");
       });
-
   }
-  
+
   componentDidMount() {
     let { vehicule_id } = this.state;
 
@@ -184,31 +160,16 @@ export default class Form extends Component {
   }
 
   handleInitDateChange(e) {
-    console.log("init", e);
-    // console.log(getFormatedDate(e))
-    // let data = new Date(e),
-    // // console.log(data)
-    // // console.log(typeof(data))
-    // // console.log()
-    // dia = data.getDate().toString(),
-    // diaF = (dia.length == 1) ? '0' + dia : dia,
-    // mes = (data.getMonth() + 1).toString(),
-    // mesF = (mes.length == 1) ? '0' + mes : mes,
-    // anoF = data.getFullYear(),
-    // hour = ("0" + data.getHours()).slice(-2).toString(),
-    // minutes = ("0" + data.getMinutes()).slice(-2).toString(),
-    // seconds = ("0" + data.getSeconds()).slice(-2).toString();
+    // console.log("init", e);
 
-    // console.log( anoF + "-" + mesF + "-" + diaF + "T" + hour + ":" + minutes + ":" + seconds) // 2020-02-05T12:54:00
-    // console.log(getFormatedDate(e))
     this.setState({
       h_enter: e,
     });
   }
 
   handleEndDateChange(e) {
-    console.log("end", e);
-    // console.log(getFormatedDate(e))
+    // console.log("end", e);
+
     this.setState({
       h_exit: e,
     });
@@ -226,10 +187,7 @@ export default class Form extends Component {
     form_data.append("h_enter", this.state.h_enter);
     form_data.append("h_exit", this.state.h_exit);
     form_data.append("idEstacionamento", this.state.parking_id);
-
     form_data.append("idFuncionario", this.state.employe_id);
-
-    // idFuncionario
 
     return form_data;
   }
@@ -239,14 +197,11 @@ export default class Form extends Component {
     let { vehicule_id, parking_id } = this.state;
 
     if (vehicule_id !== undefined) {
-
       //put
-      this.editVehicule()
-     
+      this.editVehicule();
     } else {
       //post
-      this.createVehicule()
-      
+      this.createVehicule();
     }
   }
 
@@ -261,7 +216,6 @@ export default class Form extends Component {
   render() {
     let employees;
 
-    // let select_countries;
     if (this.state.employees.length > 0) {
       employees = (
         <div className="form-group">
@@ -297,7 +251,10 @@ export default class Form extends Component {
           </Link>
         </section>
 
-        <form onSubmit={this.handleSubmit} style={{marginLeft:"40px",marginTop:"150px"}}>
+        <form
+          onSubmit={this.handleSubmit}
+          style={{ marginLeft: "40px", marginTop: "150px" }}
+        >
           <div className="form-group">
             <label htmlFor="">Nome do proprietário</label>
 
@@ -306,6 +263,7 @@ export default class Form extends Component {
               name="owner"
               onChange={(e) => this.handleChangeText(e)}
               placeholder="Nome proprietário"
+              required
             />
           </div>
 
@@ -316,7 +274,6 @@ export default class Form extends Component {
               value={this.state.board}
               onChange={(e) => this.handleChangeText(e)}
               placeholder="Placa"
-              // type="email"
               name="board"
             />
           </div>
@@ -327,7 +284,6 @@ export default class Form extends Component {
               value={this.state.color}
               onChange={(e) => this.handleChangeText(e)}
               placeholder="Cor"
-              // type="text"
               name="color"
             />
           </div>
@@ -341,7 +297,6 @@ export default class Form extends Component {
               name="brand"
             />
           </div>
-          {/* <div className="input-group"> */}
           <div className="form-group">
             <label htmlFor="">Ano de fabricação</label>
 
@@ -362,14 +317,7 @@ export default class Form extends Component {
               name="model"
             />
           </div>
-          {/* <div className="input-group"> */}
-          {/* <input
-                value={this.state.h_enter}
-                type="datetime"
-               onChange={(e) => this.handleInitDateChange(e.target.value)}
-                placeholder="Hora entrada"
-                name="h_enter"
-              /> */}
+
           <div className="form-group">
             <label htmlFor="">Hora de entrada</label>
 
@@ -379,16 +327,10 @@ export default class Form extends Component {
               name="h_enter"
               value={this.state.h_enter}
               placeholder="Hora entrada"
+              required
             />
           </div>
-          {/* <div className="input-group"> */}
-          {/* <input
-                value={this.state.h_exit}
-                type="date"
-                onChange={(e) => this.handleEndDateChange(e.target.value)}
-                placeholder="Hora saida"
-                name="h_exit"
-              /> */}
+
           <div className="form-group">
             <label htmlFor="">Hora de saída</label>
             <input
@@ -396,10 +338,9 @@ export default class Form extends Component {
               onChange={(e) => this.handleEndDateChange(e.target.value)}
               placeholder="Hora saida"
               name="h_exit"
-              // placeholder="Hora saida"
               value={this.state.h_exit}
+              required
             />
-            {/* </div> */}
           </div>
 
           {employees}

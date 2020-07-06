@@ -1,24 +1,17 @@
 import React, { Component } from "react";
-// import { FiEdit, FiDelete } from "react-icons/fi";
-// import { Table } from "reactstrap";
 import { Link } from "react-router-dom";
 import AddButton from "../../components/Add_button";
-// import Table from "react-bootstrap/Table";
 import axios from "axios";
-import {
-  isChildrenEmpty,
-  calculeTime,
-  getFormatedDate,
-} from "../../helpers/utils";
+import { isChildrenEmpty, getFormatedDate } from "../../helpers/utils";
+
 import { ToastContainer, toast } from "react-toastify";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
-// import {} from '.'
 import myConfig from "../../configs/config";
-// Spinner
-import "./index.css";
+
 import Spinner from "../../components/Spinner";
 import PdfContainer from "../../components/PdfContainer";
 import Doc from "../../components/DocService";
+import "./index.css";
 
 class List extends Component {
   constructor(props) {
@@ -95,76 +88,42 @@ class List extends Component {
         });
     }
   }
-  // funcao para formatar a data
-  // formatDate(date){
-
-  // }
 
   calculateValue(he, hs) {
-    let horas = localStorage.getItem("horas");
-    // console.log(horas)
-    // let meia_hora = parseInt(horas) / 2;
-    // let quinze_minutos = meia_hora / 2;
-    // console.log(meia_hora, quinze_minutos)
-    let diaria = (44*5)/30;
-
-
+    let diaria = (120 * 5) / 30;
     let h_enter = new Date(he);
     let h_exit = new Date(hs);
-    console.log("saída ", h_exit);
-    console.log("entrada ", h_enter);
-
-    // console.log(typeof(hs))
-
-    // console.log("h_enter", h_enter.getTime());
-    // console.log("h_exit", h_exit.getTime());
-
-    // console.log('sub ', h_exit.getTime() - h_enter.getTime() )
-    // let sub = h_exit.getTime() - h_enter.getTime();
-
-    // console.log()
-    // console.log()
-    // console.log()
 
     if (h_enter.getDate() !== h_exit.getDate()) {
       let sub = Math.abs(h_exit.getDate() - h_enter.getDate());
-      console.log("*********", sub);
-      console.log(diaria);
       let value;
+
       for (let i = 0; i < sub; i++) {
-        // console.log('***************',i)
-        // console.log("+++", parseInt(horas)  + i)
-        console.log('iiiiiiiii',i)
-        value = diaria  * i;
+        value = (diaria * i) / 3;
       }
-      console.log(value);
-      return value === 0 ? diaria : value
-    } 
+      return value === 0 ? diaria : value;
+    }
     else {
       let sub = Math.abs(h_exit - h_enter);
-      // new Date(sub)
-      // console.log(sub)
-      // console.log("sub", formatTime(sub));
-      // console.log("opa", sub.getHours())
-      // console.log("************", diaria)
-      // pegar total de horas
-      // e a cada uma hora
-      // eu somo + total de horas que vem e retorno
+      let data = new Date(sub);
+      let hour = ("0" + data.getHours()).slice(-2).toString();
+      let horas = localStorage.getItem("horas");
 
-      return calculeTime(sub);
+      let value;
+      for (let i = 1; i < hour; i++) {
+        value = parseInt(horas) + i;
+      }
+
+      return value;
     }
   }
-
-  // formatTime(time){
-
-  // }
 
   createPdf = (html) => Doc.createPdf(html);
 
   render() {
-    let content;
-    // console.log(this.state.vehicules.length);
-    let vagas = localStorage.getItem("vagas");
+    let content,
+      vagas = localStorage.getItem("vagas");
+
     if (this.state.loading === true) {
       content = (
         <div className="spinner">

@@ -1,5 +1,2 @@
 export const SET_PARKING = 'SET_PARKING';
-
-// export const FETCH_FARMS = 'FETCH_FARMS';
-
 export const FETCH_PARKING_SUCCESS = 'FETCH_PARKING_SUCCESS';

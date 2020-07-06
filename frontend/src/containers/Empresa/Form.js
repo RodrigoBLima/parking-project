@@ -3,8 +3,6 @@ import myConfig from "../../configs/config";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import SelectBox from "../../components/SelectBox";
-import { Link } from "react-router-dom";
-import { FiArrowLeft } from "react-icons/fi";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -14,7 +12,6 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      //   establishment: [],
       parking_id: this.props.match.params.parking_id,
       name_establishment: "",
       country_name: [],
@@ -24,12 +21,12 @@ class Form extends Component {
       cnpj: "",
       vacancies: "",
       email: "",
-      value_hour:"",
+      value_hour: "",
     };
     this.handleSave = this.handleSave.bind(this);
   }
 
-  getParking(){
+  getParking() {
     const { parking_id } = this.state;
 
     let ESTABLISHMENT_URL = `${myConfig.API_URL}/parkings/${parking_id}/`;
@@ -40,9 +37,9 @@ class Form extends Component {
         Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
       },
     }).then((res) => {
-      console.log("***********++++++++");
-      console.log(res.data);
-      console.log("***********++++++++");
+      // console.log("***********++++++++");
+      // console.log(res.data);
+      // console.log("***********++++++++");
       this.setState({
         name_establishment: res.data.name_establishment,
         value_hour: res.data.value_hour,
@@ -54,10 +51,9 @@ class Form extends Component {
         email: res.data.username,
       });
     });
-
   }
 
-  getCountries(){
+  getCountries() {
     const PAIS_URL = `${myConfig.API_URL}/countries/`;
 
     axios({
@@ -67,19 +63,17 @@ class Form extends Component {
         Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
       },
     }).then((res) => {
-      console.log("***********");
-      console.log(res.data);
-      console.log("***********");
+      // console.log("***********");
+      // console.log(res.data);
+      // console.log("***********");
       this.setState({ country_name: res.data });
     });
   }
 
   componentDidMount() {
-    // const { parking_id } = this.state;
-   this.getParking()
-
+    this.getParking();
     // GET COUNTRIES
-   this.getCountries()
+    this.getCountries();
   }
 
   getFormData() {
@@ -94,12 +88,10 @@ class Form extends Component {
     form_data.append("email", this.state.email);
     form_data.append("username", this.state.email);
     form_data.append("value_hour", this.state.value_hour);
-    // form_data.append("dt_ini", this.state.dt_ini);
-    // form_data.append("dt_nasc", this.state.dt_nasc);
-    // form_data.append("idEstacionamento", this.state.parking_id);
 
     return form_data;
   }
+
   handleSave(e) {
     e.preventDefault();
     let UPDATE_ESTABLISHMENT = `${myConfig.API_URL}/parkings/${this.state.parking_id}/`;
@@ -113,31 +105,18 @@ class Form extends Component {
       data: this.getFormData(),
     })
       .then((res) => {
-        console.log("***********");
-        console.log(res.data);
-        console.log("***********");
+        // console.log("***********");
+        // console.log(res.data);
+        // console.log("***********");
         if (res.status === 200) {
-          //   console.log(response.data);
-          // this.setState({ submited_update: true });
-          localStorage.setItem("vagas", res.data.value_hour);
+          localStorage.setItem("vagas", res.data.vacancies);
           localStorage.setItem("parking_name", res.data.name_establishment);
           toast("Atualizado com sucesso!");
         }
-        setTimeout(() => {
-          // this.setState({
-          //     submited_update: false,
-          // });
-        }, 8000);
+        setTimeout(() => {}, 8000);
         window.location.href = "/" + this.state.parking_id + "/vehicules/";
       })
       .catch((error) => {
-        // window.error = error.response.data;
-        // console.log(error.response.data)
-        // let error_msg = '';
-        // Object.keys(error.response.data).forEach(function(e){
-        //     error_msg += e + ': '+ error.response.data[e][0] + ' \n ';
-        // });
-        // this.setState({ error: error_msg});
         console.error(error);
         toast("Erro ao atualizar.");
       });
@@ -208,43 +187,38 @@ class Form extends Component {
     return (
       <div className="content">
         <form onSubmit={this.handleSave}>
+          <div className="form-group">
+            <label htmlFor="">Nome do estabelecimento</label>
 
-        <div className="form-group">
-
-        <label htmlFor="">Nome do estabelecimento</label>
-
-          <input
-            value={this.state.name_establishment}
-            name="name_establishment"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="Nome do estabelecimento"
-            // type="email"
-          />
-  </div>
-  <div className="form-group">
-
-<label htmlFor="">Email do estabelecimento</label>
-
-          <input
-            value={this.state.email}
-            name="email"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="E-mail"
-            // type="email"
-          />
-</div>
-<div className="form-group">
-
-<label htmlFor="">Quantidade de vagas</label>
-
-          <input
-            value={this.state.vacancies}
-            name="vacancies"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="Quantidade de vagas"
-            type="number"
-          />
+            <input
+              value={this.state.name_establishment}
+              name="name_establishment"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="Nome do estabelecimento"
+            />
           </div>
+          <div className="form-group">
+            <label htmlFor="">Email do estabelecimento</label>
+
+            <input
+              value={this.state.email}
+              name="email"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="E-mail"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="">Quantidade de vagas</label>
+
+            <input
+              value={this.state.vacancies}
+              name="vacancies"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="Quantidade de vagas"
+              type="number"
+            />
+          </div>
+
           {select_countries}
 
           <PlacesAutocomplete
@@ -286,32 +260,27 @@ class Form extends Component {
             )}
           </PlacesAutocomplete>
           <div className="form-group">
+            <label htmlFor="">CEP do estabelecimento</label>
 
-<label htmlFor="">CEP do estabelecimento</label>
-
-          <input
-            value={this.state.cep}
-            name="cep"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="CEP"
-            // type="email"
-          />
+            <input
+              value={this.state.cep}
+              name="cep"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="CEP"
+            />
           </div>
           <div className="form-group">
+            <label htmlFor="">CNPJ do estabelecimento</label>
 
-<label htmlFor="">CNPJ do estabelecimento</label>
-
-          <input
-            value={this.state.cnpj}
-            name="cnpj"
-            onChange={(e) => this.handleChangeText(e)}
-            placeholder="CNPJ da empresa"
-            // type="email"
-          />
+            <input
+              value={this.state.cnpj}
+              name="cnpj"
+              onChange={(e) => this.handleChangeText(e)}
+              placeholder="CNPJ da empresa"
+            />
           </div>
           <div className="form-group">
-
-<label htmlFor="">Valor cobrado por hora</label>
+            <label htmlFor="">Valor cobrado por hora</label>
 
             <input
               value={this.state.value_hour}
@@ -319,7 +288,7 @@ class Form extends Component {
               onChange={(e) => this.handleChangeText(e)}
               placeholder="Valor por hora"
             />
-            </div>
+          </div>
 
           <button className="button" type="submit">
             Atualizar

@@ -12,7 +12,6 @@ const AddButton = props => {
             <div>
                 <Link to={props.url} className="btn-default-add">
                     <FiPlus size={24} style={{color:"#fff", marginTop:"11px", marginLeft:"14px"}}/>
-
                 </Link>
             </div>
         );    
