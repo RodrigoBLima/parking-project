@@ -1,0 +1,6 @@
+celery==4.3.0
+Django==2.0.2
+django-cors-headers==3.0.1
+django-oauth-toolkit==1.2.0
+djangorestframework==3.9.4
+djangorestframework-filters==0.11.1
