@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ReactPasswordStrength from "react-password-strength";
 import myConfig from "../../configs/config";
 import axios from "axios";
-import { Alert } from "reactstrap";
 import { Link } from "react-router-dom";
 import { FiLogIn } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,12 +20,8 @@ class ResetPassword extends Component {
     this.handleChangeText = this.handleChangeText.bind(this);
     this.handleSave = this.handleSave.bind(this);
   }
-
-  //WARNING! To be deprecated in React v17. Use componentDidMount instead.
-  componentDidMount() {
-    document.title = "Agriconnected - Perfil";
-
-    let USER_URL = myConfig.API_URL + "/accounts/me/";
+  getCurrentUser() {
+    let USER_URL = `${myConfig.API_URL}/accounts/me/`;
 
     axios({
       baseURL: USER_URL,
@@ -40,6 +35,10 @@ class ResetPassword extends Component {
         parking_id: res.data.id,
       });
     });
+  }
+  //WARNING! To be deprecated in React v17. Use componentDidMount instead.
+  componentDidMount() {
+    this.getCurrentUser();
   }
 
   handleChangeText(e, name) {
