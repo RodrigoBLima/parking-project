@@ -7,7 +7,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 class Form extends Component {
   constructor(props) {
@@ -23,6 +23,7 @@ class Form extends Component {
       vacancies: "",
       email: "",
       value_hour: "",
+      error: "",
     };
     this.handleSave = this.handleSave.bind(this);
   }
@@ -118,10 +119,20 @@ class Form extends Component {
         window.location.href = "/" + this.state.parking_id + "/vehicules/";
       })
       .catch((error) => {
-        console.error(error);
-        toast("Erro ao atualizar.");
+        // console.log(error.response.data);
+        let error_msg = "";
+        Object.keys(error.response.data).forEach(function (e) {
+          error_msg += e + ": " + error.response.data[e][0] + " \n ";
+        });
+        this.setState({ error: error_msg });
       });
+    setTimeout(() => {
+      this.setState({
+        error: "",
+      });
+    }, 3000);
   }
+
   handleChangeText(e) {
     this.setState({
       [e.target.name]: e.target.value,
@@ -184,13 +195,15 @@ class Form extends Component {
         </div>
       );
     }
+    if (this.state.error !== "") {
+      toast(this.state.error);
+    }
 
     return (
       <div className="content">
-        <form 
-        onSubmit={this.handleSave}
-        style={{ marginTop: "220px", marginLeft: "40px" }}
-
+        <form
+          onSubmit={this.handleSave}
+          style={{ marginTop: "220px", marginLeft: "40px" }}
         >
           <div className="form-group">
             <label htmlFor="">Nome do estabelecimento</label>
@@ -298,7 +311,10 @@ class Form extends Component {
           <button className="button" type="submit">
             Atualizar
           </button>
-          <Link className="button" to={`/${this.state.parking_id}/reset_password`}>
+          <Link
+            className="button"
+            to={`/${this.state.parking_id}/reset_password`}
+          >
             Trocar senha
           </Link>
         </form>
