@@ -14,3 +14,12 @@ class EstablishmentSerializer(serializers.ModelSerializer):
                   'vacancies', 'country', 'cnpj', 'email', 'name_country', 'username', 'id',
                   'value_hour')
         extra_kwargs = {'password': {'write_only': True}}
+
+
+class PasswordSerializer(serializers.Serializer):
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+

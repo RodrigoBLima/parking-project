@@ -7,6 +7,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import {Link} from 'react-router-dom'
 
 class Form extends Component {
   constructor(props) {
@@ -186,7 +187,11 @@ class Form extends Component {
 
     return (
       <div className="content">
-        <form onSubmit={this.handleSave}>
+        <form 
+        onSubmit={this.handleSave}
+        style={{ marginTop: "220px", marginLeft: "40px" }}
+
+        >
           <div className="form-group">
             <label htmlFor="">Nome do estabelecimento</label>
 
@@ -293,6 +298,9 @@ class Form extends Component {
           <button className="button" type="submit">
             Atualizar
           </button>
+          <Link className="button" to={`/${this.state.parking_id}/reset_password`}>
+            Trocar senha
+          </Link>
         </form>
         <ToastContainer />
       </div>
