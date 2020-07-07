@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'parking',
     'vehicules',
     'employees',
-    # 'corsheaders',
     'rest_framework',
     'location',   
     'oauth2_provider',
@@ -148,9 +147,6 @@ OAUTH2_PROVIDER = {
 REST_FRAMEWORK = {
     # ...
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # )
      'DEFAULT_AUTHENTICATION_CLASSES': (
        'rest_framework.authentication.BasicAuthentication',
        'rest_framework.authentication.SessionAuthentication',

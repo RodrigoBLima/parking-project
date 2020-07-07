@@ -32,6 +32,7 @@ class Form extends Component {
           : parseInt(this.props.match.params.employee_id),
       parking_id: this.props.match.params.parking_id,
       title: "Cadastrar funcionário",
+      error: "",
     };
     this.handleSave = this.handleSave.bind(this);
   }
@@ -109,9 +110,18 @@ class Form extends Component {
         window.location.href = "/" + this.state.parking_id + "/employees/";
       })
       .catch((error) => {
-        // console.error(error);
-        toast("Erro ao cadastrar.");
+        console.log(error.response.data);
+        let error_msg = "";
+        Object.keys(error.response.data).forEach(function (e) {
+          error_msg += e + ": " + error.response.data[e][0] + " \n ";
+        });
+        this.setState({ error: error_msg });
       });
+    setTimeout(() => {
+      this.setState({
+        error: "",
+      });
+    }, 3000);
   }
 
   updateEmployee() {
@@ -138,9 +148,18 @@ class Form extends Component {
         window.location.href = "/" + this.state.parking_id + "/employees/";
       })
       .catch((error) => {
-        // console.error(error);
-        toast("Erro ao atualizar.");
+        console.log(error.response.data);
+        let error_msg = "";
+        Object.keys(error.response.data).forEach(function (e) {
+          error_msg += e + ": " + error.response.data[e][0] + " \n ";
+        });
+        this.setState({ error: error_msg });
       });
+    setTimeout(() => {
+      this.setState({
+        error: "",
+      });
+    }, 3000);
   }
 
   componentDidMount() {
@@ -260,6 +279,10 @@ class Form extends Component {
           </select>
         </div>
       );
+    }
+
+    if (this.state.error !== "") {
+      toast(this.state.error);
     }
 
     return (

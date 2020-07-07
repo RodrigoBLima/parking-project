@@ -18,11 +18,8 @@ const Login = () => {
     form_data.append("password", password);
     form_data.append("grant_type", "password");
     form_data.append("client_id", "api");
-    form_data.append(
-      "client_secret",
-      "I6mNDQsXPKoAqmxNUjpR6cMgeZBQx0CaNSEDrjIf9ZOIHnhnsr7QpjRC5PUeC3JGWR8XljDitd8A6BnCOtXPMuhx0AxYp0qUxYlDOksVvqsq1AYiLBQIHQaJ4twmCl7g"
-    );
-
+    form_data.append("client_secret","I6mNDQsXPKoAqmxNUjpR6cMgeZBQx0CaNSEDrjIf9ZOIHnhnsr7QpjRC5PUeC3JGWR8XljDitd8A6BnCOtXPMuhx0AxYp0qUxYlDOksVvqsq1AYiLBQIHQaJ4twmCl7g");
+    
     return form_data;
   }
 

@@ -23,6 +23,7 @@ export default class Form extends Component {
       title: "Adicionar veículo",
       employees: [],
       employe_id: "",
+      error: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -107,9 +108,18 @@ export default class Form extends Component {
         window.location.href = "/" + this.state.parking_id + "/vehicules/";
       })
       .catch((error) => {
-        console.log("ERROR", error);
-        toast("Erro ao cadastrar.");
+        console.log(error.response.data);
+        let error_msg = "";
+        Object.keys(error.response.data).forEach(function (e) {
+          error_msg += e + ": " + error.response.data[e][0] + " \n ";
+        });
+        this.setState({ error: error_msg });
+      })
+    setTimeout(() => {
+      this.setState({
+        error: "",
       });
+    }, 3000);
   }
 
   editVehicule() {
@@ -138,9 +148,18 @@ export default class Form extends Component {
         window.location.href = "/" + this.state.parking_id + "/vehicules/";
       })
       .catch((error) => {
-        console.log("ERROR", error);
-        toast("Erro ao atualizar.");
+        console.log(error.response.data);
+        let error_msg = "";
+        Object.keys(error.response.data).forEach(function (e) {
+          error_msg += e + ": " + error.response.data[e][0] + " \n ";
+        });
+        this.setState({ error: error_msg });
       });
+    setTimeout(() => {
+      this.setState({
+        error: "",
+      });
+    }, 3000);
   }
 
   componentDidMount() {
@@ -239,6 +258,10 @@ export default class Form extends Component {
           </select>
         </div>
       );
+    }
+    // let error
+    if (this.state.error !== "") {
+      toast(this.state.error);
     }
 
     return (
