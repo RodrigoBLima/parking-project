@@ -38,7 +38,7 @@ class Form extends Component {
 
   getEmployee() {
     const { employee_id, parking_id } = this.state;
-    let EMPLOYEE_URL = `${myConfig.API_URL}/employees/?id=${this.state.employee_id}&idEstacionamento=${this.state.parking_id}`;
+    let EMPLOYEE_URL = `${myConfig.API_URL}/employees/?id=${employee_id}&idEstacionamento=${parking_id}`;
 
     axios({
       baseURL: EMPLOYEE_URL,
@@ -225,7 +225,7 @@ class Form extends Component {
   handleSave(e) {
     e.preventDefault();
 
-    let { employee_id, parking_id } = this.state;
+    let { employee_id } = this.state;
 
     if (employee_id !== -1) {
       this.updateEmployee();

@@ -63,7 +63,7 @@ class ResetPassword extends Component {
       this.state.parking_id +
       "/set_password/";
 
-    if (this.state.new_password != this.state.confirm_new) {
+    if (this.state.new_password !== this.state.confirm_new) {
       this.setState({
         is_invalid: true,
       });
@@ -113,11 +113,11 @@ class ResetPassword extends Component {
   }
 
   render() {
-    if (this.state.is_invalid == true) {
+    if (this.state.is_invalid === true) {
       toast(
         "Todos os campos devem estar preenchidos e Nova senha e Confirmar senha devem ser exatamente iguais."
       );
-    } else if (this.state.is_valid == true) {
+    } else if (this.state.is_valid === true) {
       toast("Nova senha cadastrada com sucesso!");
     }
 

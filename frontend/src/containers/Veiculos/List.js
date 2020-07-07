@@ -35,9 +35,9 @@ class List extends Component {
         Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
       },
     }).then((res) => {
-      console.log("***********");
-      console.log(res.data);
-      console.log("***********");
+      // console.log("***********");
+      // console.log(res.data);
+      // console.log("***********");
       this.setState({ vehicules: res.data, loading: false });
     });
 
@@ -45,23 +45,6 @@ class List extends Component {
   }
   componentDidMount() {
     this.getVehicules();
-    // let url = `${myConfig.API_URL}/cars/?id=&idEstacionamento=${parseInt(this.state.parking_id)}`;
-
-    // axios({
-    //   baseURL: url,
-    //   method: "get",
-    //   headers: {
-    //     Authorization: `Bearer ${localStorage.getItem("parking-token")}`,
-    //   },
-    // }).then((res) => {
-    //   console.log("***********");
-    //   console.log(res.data);
-    //   console.log("***********");
-    //   this.setState({ vehicules: res.data,loading:false });
-    // });
-
-    // // this.calculateValue(50,10)
-    // console.log("aqui componentDidMount")
   }
 
   deleteVehicule(id) {
@@ -81,7 +64,6 @@ class List extends Component {
         // axios.delete(DELETE_IMPLEMENT)
         .then((res) => {
           // console.log(res.data)
-          // alert("Implemento excluído com sucesso !");
           toast("Veículo deletado com sucesso");
           window.scrollTo(0, 0);
           window.location.href = "/" + this.state.parking_id + "/vehicules/";
@@ -132,7 +114,7 @@ class List extends Component {
       );
     } else {
       content = (
-        <ul>
+        <>
           {isChildrenEmpty(
             this.state.vehicules,
             <div>
@@ -140,7 +122,7 @@ class List extends Component {
                 Estabelecimento não possui nenhum veículo no momento
               </h1>
             </div>,
-            <>
+            <ul>
               {this.state.vehicules.map((vehicule) => (
                 <li key={vehicule.id}>
                   <strong>Proprietátio: </strong>
@@ -181,9 +163,9 @@ class List extends Component {
                   </button>
                 </li>
               ))}
-            </>
+            </ul>
           )}
-        </ul>
+        </>
       );
     }
 

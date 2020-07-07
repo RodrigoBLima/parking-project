@@ -8,29 +8,26 @@ import AddButton from "../../components/Add_button";
 import { ToastContainer, toast } from "react-toastify";
 import "./index.css";
 import axios from "axios";
-import myConfig from '../../configs/config'
+import myConfig from "../../configs/config";
 import { isChildrenEmpty } from "../../helpers/utils";
 import Spinner from "../../components/Spinner";
 // import ExportButton from "../../components/ExportButton";
 import PdfContainer from "../../components/PdfContainer";
 import Doc from "../../components/DocService";
 
-
 export default class List extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       employees: [],
       parking_id: this.props.match.params.parking_id,
-      loading:true
-    }
-    this.deleteEmployee=this.deleteEmployee.bind(this)
+      loading: true,
+    };
+    this.deleteEmployee = this.deleteEmployee.bind(this);
   }
-// ;
+  // ;
 
-getEmployees(){
-  
-}
+  getEmployees() {}
 
   componentDidMount() {
     const URL = `${myConfig.API_URL}/employees/?id=&idEstacionamento=${this.state.parking_id}`;
@@ -45,7 +42,7 @@ getEmployees(){
       console.log("***********");
       console.log(res.data);
       console.log("***********");
-      this.setState({ employees: res.data,loading:false });
+      this.setState({ employees: res.data, loading: false });
     });
 
     // try {
@@ -65,90 +62,91 @@ getEmployees(){
     console.log(id);
     let DELETE_EMPLOYEE = `${myConfig.API_URL}/employees/?id=${id}&idEstacionamento=${this.state.parking_id}`;
 
-        if (!window.confirm('Realmente deseja excluir este funcionário  ?')) {
-            return 0;
-        } else {
-            axios({
-                baseURL: DELETE_EMPLOYEE,
-                method: 'delete',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('client-token')}`
-                },
-            })
-                // axios.delete(DELETE_IMPLEMENT)
-                .then(res => {
-                    // console.log(res.data)
-                    // alert("Implemento excluído com sucesso !");
-                    toast('Funcionário deletado com sucesso')
-                    window.scrollTo(0, 0);
-                    window.location.href = "/"+this.state.parking_id +"/employees/";
-                });
-        }
+    if (!window.confirm("Realmente deseja excluir este funcionário  ?")) {
+      return 0;
+    } else {
+      axios({
+        baseURL: DELETE_EMPLOYEE,
+        method: "delete",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("client-token")}`,
+        },
+      })
+        // axios.delete(DELETE_IMPLEMENT)
+        .then((res) => {
+          // console.log(res.data)
+          // alert("Implemento excluído com sucesso !");
+          toast("Funcionário deletado com sucesso");
+          window.scrollTo(0, 0);
+          window.location.href = "/" + this.state.parking_id + "/employees/";
+        });
+    }
   }
   createPdf = (html) => Doc.createPdf(html);
 
   render() {
     let content;
 
-    if(this.state.loading === true){
-      content = <div className="spinner"> <Spinner loading={this.state.loading}/></div>
-    }
-    else{
-    content = (
-      <ul>
-        {isChildrenEmpty(
-          this.state.employees,
-          <div>
-            <h1 align="center">
-              Estabelecimento não possui nenhum funcionário
-            </h1>
-          </div>,
-          <>
-            {this.state.employees.map((employee) => (
-              <li key={employee.id}>
-                <strong>Nome: </strong>
-                <p>{employee.name} </p>
+    if (this.state.loading === true) {
+      content = (
+        <div className="spinner">
+          {" "}
+          <Spinner loading={this.state.loading} />
+        </div>
+      );
+    } else {
+      content = (
+        <>
+          {isChildrenEmpty(
+            this.state.employees,
+            <div>
+              <h1 align="center">
+                Estabelecimento não possui nenhum funcionário
+              </h1>
+            </div>,
+            <ul>
+              {this.state.employees.map((employee) => (
+                <li key={employee.id}>
+                  <strong>Nome: </strong>
+                  <p>{employee.name} </p>
 
-                <strong>Cargo: </strong>
-                <p>{employee.office}</p>
+                  <strong>Cargo: </strong>
+                  <p>{employee.office}</p>
 
-                <strong>Credencial: </strong>
-                <p>{employee.credential}</p>
+                  <strong>Credencial: </strong>
+                  <p>{employee.credential}</p>
 
-                <strong>RG: </strong>
-                <p>{employee.rg}</p>
+                  <strong>RG: </strong>
+                  <p>{employee.rg}</p>
 
-                <button type="button" style={{ marginRight: 30 }}>
-                  <Link
-                    to={`/${this.state.parking_id}/employees/edit/${employee.id}`}
+                  <button type="button" style={{ marginRight: 30 }}>
+                    <Link
+                      to={`/${this.state.parking_id}/employees/edit/${employee.id}`}
+                    >
+                      <FiEdit2 size={20} color="#a8a8b3" />
+                    </Link>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => this.deleteEmployee(employee.id)}
                   >
-                    <FiEdit2 size={20} color="#a8a8b3" />
-                  </Link>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={(e) => this.deleteEmployee(employee.id)}
-                >
-                  <FiTrash2 size={20} color="#a8a8b3" />
-                </button>
-              </li>
-            ))}
-          </>
-        )}
-      </ul>
-    )
-            }
+                    <FiTrash2 size={20} color="#a8a8b3" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      );
+    }
 
     return (
       <div className="list_employee">
         <AddButton url={`/${this.state.parking_id}/employees/add/`} />
-        {/* <ExportButton expor/> */}
-        <ToastContainer />
-        <PdfContainer createPdf={this.createPdf} >
 
-        {content}
-        </PdfContainer>
+        <ToastContainer />
+        <PdfContainer createPdf={this.createPdf}>{content}</PdfContainer>
       </div>
     );
   }
