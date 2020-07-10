@@ -17,8 +17,8 @@ const Login = () => {
     form_data.append("username", email);
     form_data.append("password", password);
     form_data.append("grant_type", "password");
-    form_data.append("client_id", "api");
-    form_data.append("client_secret","I6mNDQsXPKoAqmxNUjpR6cMgeZBQx0CaNSEDrjIf9ZOIHnhnsr7QpjRC5PUeC3JGWR8XljDitd8A6BnCOtXPMuhx0AxYp0qUxYlDOksVvqsq1AYiLBQIHQaJ4twmCl7g");
+    form_data.append("client_id", "app");
+    form_data.append("client_secret","t3pRV1aEEOnv1Tm4DGLoAAmRGK5Rq2phLNOu6axeuKBc8zQhsQC35jMeGkM71FwKBg5pNgQZhSLtKElMlT88VhVLURAhbT3Xi0pE68x5Hgi1z0LuTT1CL5V0x9vbR6Ym");
     
     return form_data;
   }

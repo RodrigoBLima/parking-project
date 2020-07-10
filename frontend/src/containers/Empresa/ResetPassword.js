@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FiLogIn } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
+import './index.css'
 
 class ResetPassword extends Component {
   constructor(props) {

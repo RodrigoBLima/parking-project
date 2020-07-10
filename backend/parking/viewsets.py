@@ -21,6 +21,9 @@ class EstablishmentViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
+        print('***************')
+        print(request.data)
+        print('***************')
         user.set_password(serializer.validated_data.get('password'))
         user.save()
         headers = self.get_success_headers(serializer.data)

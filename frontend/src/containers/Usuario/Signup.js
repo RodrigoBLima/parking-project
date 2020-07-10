@@ -25,25 +25,27 @@ export default function Register() {
       email: username,
     };
 
-    try {
-      let url = myConfig.API_URL + "/parkings/";
-      axios({
-        baseURL: url,
-        method: "post",
-        data: data,
-      }).then((res) => {
-        //   console.log(res.data)
+    let url = myConfig.API_URL + "/parkings/";
+    axios({
+      baseURL: url,
+      method: "post",
+      data: data,
+    })
+      .then((res) => {
         if (res.status === 201) {
           toast(`Cadastro realizado com sucesso !`);
         }
+        setTimeout(() => {
+          history.push("/login/");
+        }, 5000);
+      })
+      .catch((error) => {        
+        let error_msg = "";
+        Object.keys(error.response.data).forEach(function (e) {
+          error_msg += e + ": " + error.response.data[e][0] + " - ";
+        });
+        toast(error_msg);
       });
-
-      setTimeout(() => {
-        history.push("/login/");
-      }, 5000);
-    } catch (e) {
-      toast("Erro no cadastro, tente novamente.");
-    }
   }
 
   return (
