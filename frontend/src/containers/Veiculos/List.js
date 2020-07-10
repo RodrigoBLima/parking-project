@@ -79,9 +79,9 @@ class List extends Component {
     if (h_enter.getDate() !== h_exit.getDate()) {
       let sub = Math.abs(h_exit.getDate() - h_enter.getDate());
       let value;
-
+      console.log('*********if')
       for (let i = 0; i < sub; i++) {
-        value = (diaria * i) / 3;
+        value = (diaria * i) / 2;
       }
       return value === 0 ? diaria : value;
     }
@@ -92,7 +92,7 @@ class List extends Component {
       let horas = localStorage.getItem("horas");
 
       let value;
-      for (let i = 1; i < hour; i++) {
+      for (let i = 1; i <= hour; i++) {
         value = parseInt(horas) + i;
       }
 
