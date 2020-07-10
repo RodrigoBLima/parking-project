@@ -4,7 +4,7 @@ from datetime import date, datetime, timedelta
 # Create your models here.
 
 class Veiculos(models.Model):
-    board  = models.CharField(max_length=7,blank=False, verbose_name="Placa veiculo", unique=True)
+    board  = models.CharField(max_length=8,blank=False, verbose_name="Placa veiculo", unique=True)
     model = models.CharField(max_length=80,blank=False, verbose_name="Modelo do carro")
     brand = models.CharField(max_length=80,blank=False, verbose_name="Marca do veiculo")
     year = models.IntegerField(max_length=4,blank=False, verbose_name="Ano de fabricacao")
