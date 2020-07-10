@@ -7,7 +7,7 @@ class Empregados(models.Model):
     credential = models.CharField(max_length=15, blank=True,verbose_name="Identificação", unique=True)
     cellphone = models.CharField(max_length=11, verbose_name="Telefone", blank=True)
     cpf = models.CharField(max_length=14, verbose_name="Cpf", blank=True,unique=True)
-    rg = models.CharField(max_length=11, verbose_name="Rg", blank=True,unique=True)
+    rg = models.CharField(max_length=12, verbose_name="Rg", blank=True,unique=True)
     country = models.ForeignKey('location.Country', on_delete=models.PROTECT, verbose_name="País", related_name='employee_country',default=32)
     location = models.CharField(max_length=80, verbose_name="Localidade", default="")
     office = models.CharField(max_length=50, verbose_name="Cargo", default="")
