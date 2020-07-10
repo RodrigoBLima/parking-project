@@ -48,9 +48,9 @@ class User(AbstractUser):
     cep = models.CharField(max_length=9, blank=True,verbose_name="CEP")
     location = models.CharField(max_length=50, verbose_name="Localidade", blank=True)
     vacancies = models.IntegerField(verbose_name="Vagas", blank=True, default=0)
-    value_hour = models.IntegerField(verbose_name="Valor por hora", blank=True, default=5)
+    value_hour = models.DecimalField(verbose_name="Valor por hora",decimal_places=2,max_digits=10, blank=True, default=4)
     country = models.ForeignKey('location.Country', on_delete=models.PROTECT, verbose_name="País", related_name='establishment_country',default=32)
-    cnpj = models.CharField(max_length=15, blank=True,verbose_name="CNPJ", default="")
+    cnpj = models.CharField(max_length=18, blank=True,verbose_name="CNPJ", default="")
     email = models.EmailField(('email address'), unique=True,)
     password = models.CharField(max_length=50, blank=False, null=False, verbose_name="Senha")
 

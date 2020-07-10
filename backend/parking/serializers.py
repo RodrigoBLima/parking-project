@@ -12,7 +12,7 @@ class EstablishmentSerializer(serializers.ModelSerializer):
         model = User
         fields = ('name_establishment', 'cep', 'location',
                   'vacancies', 'country', 'cnpj', 'email', 'name_country', 'username', 'id',
-                  'value_hour','password')
+                  'value_hour')
         extra_kwargs = {'password': {'write_only': True}}
 
 
