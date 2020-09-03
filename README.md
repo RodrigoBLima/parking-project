@@ -15,9 +15,10 @@
 
 
 <!-- VARS -->
+<div align="center">  
 # Parking 
 Project development to parking controll
-
+</div>
 <div align="center">  
 
 [![Linkedin Badge](https://img.shields.io/badge/-RodrigoBarbosa-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://https://www.linkedin.com/in/rodrigo-barbosa-710b10180/)][linkedin]
@@ -51,6 +52,5 @@ For the versions available, see the [My repository](https://github.com/RodrigoBL
 
 * **Rodrigo Barbosa** - *Initial Work* - [RodrigoBLima](https://github.com/RodrigoBLima)
 
-## License
-
-This project does not have any type of license for use.
+# License
+[MIT License](/LICENSE)
