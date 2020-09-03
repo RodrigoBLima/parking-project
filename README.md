@@ -15,10 +15,7 @@
 
 
 <!-- VARS -->
-<div align="center">  
-Parking 
-</div>
-
+# Parking 
 
 Project development to parking controll
 
